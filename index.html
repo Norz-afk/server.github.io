@@ -26,12 +26,20 @@
             font-family: 'Montserrat', sans-serif;
         }
         
+        html {
+            overflow-x: hidden;
+            width: 100%;
+            position: relative;
+        }
+        
         body {
             background: var(--bg-dark);
             color: var(--text-light);
             line-height: 1.6;
             padding-top: var(--header-h);
             overflow-x: hidden;
+            width: 100%;
+            position: relative;
         }
         
         /* Анимации */
@@ -106,7 +114,7 @@
             box-shadow: 0 5px 25px rgba(0,0,0,0.3);
             display: flex;
             align-items: center;
-            padding: 0 30px;
+            padding: 0 20px;
             border-bottom: 1px solid rgba(255,109,0,0.2);
         }
         
@@ -320,17 +328,20 @@
         .container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 0 20px;
+            padding: 0 15px;
+            width: 100%;
         }
         
         section {
-            padding: 120px 0;
+            padding: 100px 0;
             position: relative;
+            width: 100%;
+            overflow: hidden;
         }
         
         /* Герой секция */
         .hero {
-            height: 100vh;
+            min-height: 100vh;
             display: flex;
             align-items: center;
             text-align: center;
@@ -342,18 +353,21 @@
         }
         
         .hero-content {
-            max-width: 900px;
+            max-width: 100%;
             margin: 0 auto;
+            padding: 0 15px;
+            width: 100%;
         }
         
         .hero-content h1 {
-            font-size: 4rem;
+            font-size: clamp(2.5rem, 8vw, 4rem);
             margin-bottom: 20px;
             font-weight: 700;
             background: linear-gradient(45deg, var(--accent), #ff9d00);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             text-shadow: 0 0 30px var(--accent-glow);
+            line-height: 1.2;
         }
         
         .typewriter {
@@ -364,10 +378,11 @@
             animation: 
                 typewriter 3s steps(40, end),
                 blink 0.75s step-end infinite;
+            font-size: clamp(1rem, 4vw, 1.4rem);
         }
         
         .hero-content p {
-            font-size: 1.4rem;
+            font-size: clamp(1rem, 4vw, 1.4rem);
             margin-bottom: 40px;
             color: var(--text-gray);
             font-family: 'Roboto Mono', monospace;
@@ -377,16 +392,17 @@
             display: inline-block;
             background: linear-gradient(45deg, var(--accent), var(--accent-dark));
             color: white;
-            padding: 15px 40px;
+            padding: 15px 30px;
             border-radius: 50px;
             text-decoration: none;
             font-weight: 600;
             border: none;
-            font-size: 1.1rem;
+            font-size: 1rem;
             position: relative;
             overflow: hidden;
             transition: all 0.4s ease;
             box-shadow: 0 5px 15px rgba(255,109,0,0.3);
+            width: auto;
         }
         
         .btn::before {
@@ -424,11 +440,12 @@
         
         .section-title {
             text-align: center;
-            margin-bottom: 70px;
-            font-size: 3rem;
+            margin-bottom: 50px;
+            font-size: clamp(2rem, 6vw, 3rem);
             color: var(--text-light);
             position: relative;
             font-weight: 700;
+            padding: 0 15px;
         }
         
         .section-title::after {
@@ -459,13 +476,13 @@
         
         .skills-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 40px;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
         }
         
         .skill-card {
             background: rgba(26,26,26,0.7);
-            padding: 40px 30px;
+            padding: 30px 25px;
             border-radius: 15px;
             backdrop-filter: blur(10px);
             border: 1px solid rgba(68,68,68,0.3);
@@ -497,8 +514,8 @@
         
         .skill-card h3 {
             color: var(--accent);
-            margin-bottom: 25px;
-            font-size: 1.6rem;
+            margin-bottom: 20px;
+            font-size: 1.4rem;
             display: flex;
             align-items: center;
             font-weight: 600;
@@ -506,14 +523,14 @@
         
         .skill-card i {
             margin-right: 15px;
-            font-size: 1.8rem;
+            font-size: 1.6rem;
             animation: float 3s ease-in-out infinite;
         }
         
         .skill-card p {
             color: var(--text-gray);
             line-height: 1.8;
-            font-size: 1.1rem;
+            font-size: 1rem;
         }
         
         /* Проекты */
@@ -526,8 +543,8 @@
         
         .projects-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-            gap: 50px;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
         }
         
         .project-card {
@@ -538,6 +555,7 @@
             border: 1px solid rgba(68,68,68,0.3);
             transition: all 0.4s ease;
             position: relative;
+            max-width: 100%;
         }
         
         .project-card:hover {
@@ -548,7 +566,7 @@
         
         .project-gallery {
             position: relative;
-            height: 280px;
+            height: 250px;
             overflow: hidden;
         }
         
@@ -582,7 +600,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 0 20px;
+            padding: 0 15px;
             opacity: 0;
             transition: opacity 0.3s ease;
         }
@@ -595,11 +613,11 @@
             background: rgba(0,0,0,0.7);
             color: white;
             border: none;
-            width: 50px;
-            height: 50px;
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
             cursor: pointer;
-            font-size: 1.3rem;
+            font-size: 1.1rem;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -621,7 +639,7 @@
             text-decoration: none;
             font-weight: 600;
             transition: all 0.3s ease;
-            font-size: 1.1rem;
+            font-size: 1rem;
             position: relative;
             overflow: hidden;
             cursor: pointer;
@@ -659,7 +677,7 @@
             z-index: 1002;
             align-items: center;
             justify-content: center;
-            padding: 20px;
+            padding: 15px;
         }
 
         .project-modal.active {
@@ -668,10 +686,10 @@
 
         .project-modal-content {
             background: var(--bg-gray);
-            max-width: 900px;
+            max-width: 100%;
             width: 100%;
             max-height: 90vh;
-            border-radius: 20px;
+            border-radius: 15px;
             overflow: hidden;
             position: relative;
             border: 2px solid var(--accent);
@@ -680,16 +698,16 @@
 
         .close-modal {
             position: absolute;
-            top: 15px;
-            right: 15px;
+            top: 10px;
+            right: 10px;
             background: rgba(0,0,0,0.7);
             color: white;
             border: none;
-            width: 40px;
-            height: 40px;
+            width: 35px;
+            height: 35px;
             border-radius: 50%;
             cursor: pointer;
-            font-size: 1.2rem;
+            font-size: 1rem;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -704,7 +722,7 @@
 
         .project-modal-gallery {
             position: relative;
-            height: 400px;
+            height: 250px;
             overflow: hidden;
         }
 
@@ -733,18 +751,18 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 0 20px;
+            padding: 0 15px;
         }
 
         .project-modal-nav button {
             background: rgba(0,0,0,0.7);
             color: white;
             border: none;
-            width: 50px;
-            height: 50px;
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
             cursor: pointer;
-            font-size: 1.5rem;
+            font-size: 1.2rem;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -757,38 +775,38 @@
         }
 
         .project-modal-details {
-            padding: 40px;
+            padding: 25px;
             overflow-y: auto;
-            max-height: calc(90vh - 400px);
+            max-height: calc(90vh - 250px);
         }
 
         .project-modal-details h3 {
             color: var(--accent);
-            font-size: 2rem;
-            margin-bottom: 20px;
+            font-size: 1.6rem;
+            margin-bottom: 15px;
             font-weight: 700;
         }
 
         .project-modal-details p {
-            margin-bottom: 25px;
-            line-height: 1.8;
+            margin-bottom: 20px;
+            line-height: 1.6;
             color: var(--text-gray);
-            font-size: 1.1rem;
+            font-size: 1rem;
         }
 
         .project-tech {
             display: flex;
             flex-wrap: wrap;
-            gap: 10px;
-            margin-bottom: 25px;
+            gap: 8px;
+            margin-bottom: 20px;
         }
 
         .project-tech span {
             background: rgba(255,109,0,0.1);
             color: var(--accent);
-            padding: 8px 20px;
-            border-radius: 25px;
-            font-size: 0.9rem;
+            padding: 6px 15px;
+            border-radius: 20px;
+            font-size: 0.8rem;
             border: 1px solid rgba(255,109,0,0.3);
             font-family: 'Roboto Mono', monospace;
         }
@@ -803,14 +821,14 @@
 
         .pricing-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 40px;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
         }
 
         .price-card {
             background: rgba(26,26,26,0.7);
-            padding: 40px 30px;
-            border-radius: 20px;
+            padding: 30px 25px;
+            border-radius: 15px;
             backdrop-filter: blur(10px);
             border: 1px solid rgba(68,68,68,0.3);
             text-align: center;
@@ -862,22 +880,23 @@
         
         .price-card h3 {
             color: var(--accent);
-            margin-bottom: 25px;
-            font-size: 1.8rem;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
             font-weight: 600;
         }
 
         .price-card ul {
             list-style: none;
-            margin-bottom: 30px;
+            margin-bottom: 25px;
             text-align: left;
         }
 
         .price-card ul li {
-            margin-bottom: 15px;
-            padding-left: 35px;
+            margin-bottom: 12px;
+            padding-left: 30px;
             position: relative;
             color: var(--text-gray);
+            font-size: 0.95rem;
         }
 
         .price-card ul li::before {
@@ -887,14 +906,14 @@
             color: var(--accent);
             position: absolute;
             left: 0;
-            font-size: 1.1rem;
+            font-size: 1rem;
         }
 
         .price {
-            font-size: 2.5rem;
+            font-size: 2rem;
             font-weight: 700;
             color: var(--accent);
-            margin: 25px 0;
+            margin: 20px 0;
             text-shadow: 0 0 10px var(--accent-glow);
         }
 
@@ -917,9 +936,9 @@
         
         .contact-info {
             background: rgba(26,26,26,0.8);
-            padding: 80px 60px;
-            border-radius: 20px;
-            max-width: 900px;
+            padding: 50px 30px;
+            border-radius: 15px;
+            max-width: 100%;
             margin: 0 auto;
             backdrop-filter: blur(15px);
             border: 1px solid var(--accent);
@@ -928,14 +947,14 @@
         
         .contacts-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 40px;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
         }
         
         .contact-card {
             display: flex;
             align-items: center;
-            padding: 30px 25px;
+            padding: 25px 20px;
             background: rgba(42,42,42,0.6);
             border-radius: 15px;
             transition: all 0.4s ease;
@@ -949,16 +968,16 @@
         }
         
         .contact-icon {
-            width: 70px;
-            height: 70px;
+            width: 60px;
+            height: 60px;
             background: rgba(255,109,0,0.1);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-right: 25px;
+            margin-right: 20px;
             color: var(--accent);
-            font-size: 1.8rem;
+            font-size: 1.5rem;
             transition: all 0.3s ease;
         }
         
@@ -969,8 +988,8 @@
         }
         
         .contact-text h4 {
-            margin-bottom: 10px;
-            font-size: 1.3rem;
+            margin-bottom: 8px;
+            font-size: 1.2rem;
             font-weight: 600;
         }
         
@@ -978,7 +997,7 @@
         .contact-text a {
             color: var(--text-gray);
             text-decoration: none;
-            font-size: 1.1rem;
+            font-size: 1rem;
             transition: color 0.3s ease;
         }
         
@@ -989,7 +1008,7 @@
         /* Футер */
         footer {
             background: var(--bg-gray);
-            padding: 50px 0 30px;
+            padding: 40px 0 20px;
             text-align: center;
             border-top: 1px solid rgba(255,109,0,0.2);
         }
@@ -997,15 +1016,15 @@
         .social-links {
             display: flex;
             justify-content: center;
-            gap: 25px;
-            margin: 30px 0;
+            gap: 20px;
+            margin: 25px 0;
         }
         
         .social-links a {
             color: var(--text-light);
-            font-size: 1.8rem;
-            width: 60px;
-            height: 60px;
+            font-size: 1.5rem;
+            width: 50px;
+            height: 50px;
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -1027,7 +1046,7 @@
         @media (max-width: 992px) {
             .hero-content h1 { font-size: 3.2rem; }
             .section-title { font-size: 2.5rem; }
-            .contact-info { padding: 60px 40px; }
+            .contact-info { padding: 40px 30px; }
             .project-modal-content { max-width: 95%; }
         }
 
@@ -1043,25 +1062,42 @@
             .hero-content p { font-size: 1.2rem; }
             .section-title { font-size: 2.2rem; }
             .skills-grid, .pricing-grid, .projects-grid { grid-template-columns: 1fr; }
-            .contact-info { padding: 40px 30px; }
+            .contact-info { padding: 30px 20px; }
             .btn-container { display: flex; flex-direction: column; gap: 15px; }
-            .btn-outline { margin-left: 0; }
-            .project-modal-gallery { height: 300px; }
-            .project-modal-details { padding: 25px; }
+            .btn-outline { margin-left: 0; margin-top: 10px; }
+            .project-modal-gallery { height: 200px; }
+            .project-modal-details { padding: 20px; }
+            .project-modal-details h3 { font-size: 1.4rem; }
+            .project-modal-details p { font-size: 0.9rem; }
+            .contact-card {
+                flex-direction: column;
+                text-align: center;
+            }
+            .contact-icon {
+                margin-right: 0;
+                margin-bottom: 15px;
+            }
         }
 
         @media (max-width: 480px) {
             :root { --header-h: 70px; --nav-w: 85%; }
-            header { padding: 0 20px; }
+            header { padding: 0 15px; }
             .logo { font-size: 1.5rem; }
             .hero-content h1 { font-size: 2.2rem; }
             .section-title { font-size: 2rem; }
-            .skill-card, .price-card, .contact-card { padding: 25px 20px; }
+            .skill-card, .price-card, .contact-card { padding: 20px 15px; }
             .projects-grid { grid-template-columns: 1fr; }
-            .project-card { margin: 0 10px; }
-            .contact-info { padding: 30px 20px; }
-            .project-modal-gallery { height: 250px; }
-            .project-modal-details { padding: 20px; }
+            .project-card { margin: 0; }
+            .contact-info { padding: 25px 15px; }
+            .project-modal-gallery { height: 180px; }
+            .project-modal-details { padding: 15px; }
+            .project-modal-details h3 { font-size: 1.3rem; }
+            .btn { padding: 12px 25px; font-size: 0.9rem; }
+            .social-links a {
+                width: 45px;
+                height: 45px;
+                font-size: 1.3rem;
+            }
         }
     </style>
 </head>
@@ -1069,43 +1105,42 @@
     <header>
         <div class="logo">
             <i class="fas fa-code"></i>
-            <span>Dmitry.run()</span>
+            <span>Жданов Дмитрий</span>
         </div>
-        
         <div class="nav-container">
-            <ul class="nav-links">
-                <li><a href="#hero"><i class="fas fa-home"></i> Главная</a></li>
-                <li><a href="#skills"><i class="fas fa-laptop-code"></i> Навыки</a></li>
-                <li><a href="#projects"><i class="fas fa-briefcase"></i> Проекты</a></li>
-                <li><a href="#pricing"><i class="fas fa-tags"></i> Услуги</a></li>
-                <li><a href="#contacts"><i class="fas fa-envelope"></i> Контакты</a></li>
-            </ul>
-            
             <button class="nav-toggle" id="navToggle">
                 <span></span>
                 <span></span>
                 <span></span>
             </button>
+            <nav class="nav-links">
+                <li><a href="#home" class="active"><i class="fas fa-home"></i> Главная</a></li>
+                <li><a href="#skills"><i class="fas fa-cogs"></i> Навыки</a></li>
+                <li><a href="#projects"><i class="fas fa-project-diagram"></i> Проекты</a></li>
+                <li><a href="#pricing"><i class="fas fa-tags"></i> Услуги</a></li>
+                <li><a href="#contacts"><i class="fas fa-envelope"></i> Контакты</a></li>
+            </nav>
         </div>
     </header>
-    
+
     <nav class="mobile-nav" id="mobileNav">
         <ul class="mobile-nav-links">
-            <li><a href="#hero"><i class="fas fa-home"></i> Главная</a></li>
-            <li><a href="#skills"><i class="fas fa-laptop-code"></i> Навыки</a></li>
-            <li><a href="#projects"><i class="fas fa-briefcase"></i> Проекты</a></li>
+            <li><a href="#home" class="active"><i class="fas fa-home"></i> Главная</a></li>
+            <li><a href="#skills"><i class="fas fa-cogs"></i> Навыки</a></li>
+            <li><a href="#projects"><i class="fas fa-project-diagram"></i> Проекты</a></li>
             <li><a href="#pricing"><i class="fas fa-tags"></i> Услуги</a></li>
             <li><a href="#contacts"><i class="fas fa-envelope"></i> Контакты</a></li>
         </ul>
     </nav>
-    
+
     <div class="overlay" id="overlay"></div>
 
-    <section id="hero" class="hero">
+    <section id="home" class="hero">
         <div class="container">
-            <div class="hero-content fade-in">
-                <h1>Жданов Дмитрий</h1>
-                <p class="typewriter">Python разработчик с 2-летним опытом</p>
+            <div class="hero-content">
+                <h1>Full-Stack Разработчик</h1>
+                <p class="typewriter">Создаю современные веб-приложения</p>
+                <p>Превращаю идеи в цифровую реальность с помощью передовых технологий</p>
                 <div class="btn-container">
                     <a href="#projects" class="btn">Мои проекты</a>
                     <a href="#contacts" class="btn btn-outline">Связаться со мной</a>
@@ -1116,36 +1151,19 @@
 
     <section id="skills" class="skills">
         <div class="container">
-            <h2 class="section-title fade-in">Мои <span>Навыки</span></h2>
+            <h2 class="section-title">Мои <span>Навыки</span></h2>
             <div class="skills-grid">
                 <div class="skill-card fade-in">
-                    <h3><i class="fab fa-python"></i> Python Development</h3>
-                    <p>Создание скриптов, мини-приложений, программ для автоматизации и оптимизации процессов. Глубокое понимание ООП, алгоритмов и структур данных.</p>
+                    <h3><i class="fab fa-react"></i> Frontend Разработка</h3>
+                    <p>Создаю отзывчивые и интерактивные пользовательские интерфейсы с использованием React, Vue.js, TypeScript и современных CSS-фреймворков. Оптимизирую производительность и UX.</p>
                 </div>
-                
                 <div class="skill-card fade-in">
-                    <h3><i class="fab fa-telegram"></i> Telegram Bot</h3>
-                    <p>Разработка ботов на aiogram и python-telegram-bot. Интеграция с базами данных (SQLite, PostgreSQL), платежными системами и внешними API.</p>
+                    <h3><i class="fas fa-server"></i> Backend Разработка</h3>
+                    <p>Разрабатываю надежные серверные приложения на Node.js, Python (Django, Flask) и PHP. Проектирую RESTful API, работаю с базами данных и обеспечиваю безопасность.</p>
                 </div>
-                
                 <div class="skill-card fade-in">
-                    <h3><i class="fab fa-vk"></i> Вконтакте Bot</h3>
-                    <p>Создание ботов с использованием vk-api, настройка LongPoll и Callback API. Разработка веб-приложений на Flask для обработки вебхуков.</p>
-                </div>
-                
-                <div class="skill-card fade-in">
-                    <h3><i class="fab fa-discord"></i> Discord Bot</h3>
-                    <p>Разработка многофункциональных ботов на discord.py с системой модерации, экономикой, мини-играми и красивым оформлением сообщений.</p>
-                </div>
-                
-                <div class="skill-card fade-in">
-                    <h3><i class="fas fa-code"></i> Доработка кода</h3>
-                    <p>Анализ, отладка и улучшение существующего кода. Поиск и исправление ошибок, рефакторинг и оптимизация производительности.</p>
-                </div>
-                
-                <div class="skill-card fade-in">
-                    <h3><i class="fas fa-server"></i> Деплой</h3>
-                    <p>Развертывание приложений на VPS/VDS, настройка серверов, подбор оптимальных тарифов и обеспечение стабильной работы проектов.</p>
+                    <h3><i class="fas fa-mobile-alt"></i> Мобильная Разработка</h3>
+                    <p>Создаю кроссплатформенные мобильные приложения с использованием React Native и Flutter. Обеспечиваю нативную производительность и адаптивный дизайн.</p>
                 </div>
             </div>
         </div>
@@ -1153,16 +1171,16 @@
 
     <section id="projects" class="projects">
         <div class="container">
-            <h2 class="section-title fade-in">Мои <span>Проекты</span></h2>
+            <h2 class="section-title">Мои <span>Проекты</span></h2>
             <div class="projects-grid">
                 <div class="project-card fade-in">
                     <div class="project-gallery">
                         <div class="project-slides">
                             <div class="project-slide">
-                                <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Проект 1">
+                                <img src="https://images.unsplash.com/photo-1551650975-87deedd944c3?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="E-commerce проект">
                             </div>
                             <div class="project-slide">
-                                <img src="https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Проект 1">
+                                <img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="E-commerce проект - админ панель">
                             </div>
                         </div>
                         <div class="project-nav">
@@ -1170,17 +1188,18 @@
                             <button class="project-next"><i class="fas fa-chevron-right"></i></button>
                         </div>
                     </div>
-                    <a href="#" class="project-info-btn" data-project="1">Подробнее о проекте</a>
+                    <div class="project-info-btn" data-project="1">
+                        <span>Интернет-магазин</span>
+                    </div>
                 </div>
-                
                 <div class="project-card fade-in">
                     <div class="project-gallery">
                         <div class="project-slides">
                             <div class="project-slide">
-                                <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Проект 2">
+                                <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Корпоративный портал">
                             </div>
                             <div class="project-slide">
-                                <img src="https://images.unsplash.com/photo-1547658719-da2b51169166?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Проект 2">
+                                <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Корпоративный портал - аналитика">
                             </div>
                         </div>
                         <div class="project-nav">
@@ -1188,7 +1207,28 @@
                             <button class="project-next"><i class="fas fa-chevron-right"></i></button>
                         </div>
                     </div>
-                    <a href="#" class="project-info-btn" data-project="2">Подробнее о проекте</a>
+                    <div class="project-info-btn" data-project="2">
+                        <span>Корпоративный портал</span>
+                    </div>
+                </div>
+                <div class="project-card fade-in">
+                    <div class="project-gallery">
+                        <div class="project-slides">
+                            <div class="project-slide">
+                                <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Мобильное приложение">
+                            </div>
+                            <div class="project-slide">
+                                <img src="https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Мобильное приложение - UI">
+                            </div>
+                        </div>
+                        <div class="project-nav">
+                            <button class="project-prev"><i class="fas fa-chevron-left"></i></button>
+                            <button class="project-next"><i class="fas fa-chevron-right"></i></button>
+                        </div>
+                    </div>
+                    <div class="project-info-btn" data-project="3">
+                        <span>Мобильное приложение</span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -1201,29 +1241,28 @@
             <div class="project-modal-gallery">
                 <div class="project-modal-slides">
                     <div class="project-modal-slide">
-                        <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Проект 1">
+                        <img src="https://images.unsplash.com/photo-1551650975-87deedd944c3?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="E-commerce проект">
                     </div>
                     <div class="project-modal-slide">
-                        <img src="https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Проект 1">
+                        <img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="E-commerce проект - админ панель">
                     </div>
                 </div>
                 <div class="project-modal-nav">
-                    <button class="project-modal-prev"><i class="fas fa-chevron-left"></i></button>
-                    <button class="project-modal-next"><i class="fas fa-chevron-right"></i></button>
+                    <button class="modal-prev"><i class="fas fa-chevron-left"></i></button>
+                    <button class="modal-next"><i class="fas fa-chevron-right"></i></button>
                 </div>
             </div>
             <div class="project-modal-details">
-                <h3>Telegram Бот для Интернет-Магазина</h3>
-                <p>Многофункциональный Telegram бот для автоматизации продаж в интернет-магазине. Бот включает в себя каталог товаров, корзину, систему оплаты и отслеживание заказов.</p>
-                <p>Реализована интеграция с платежной системой, автоматическая отправка уведомлений клиентам и система управления заказами для администратора.</p>
+                <h3>Интернет-магазин электроники</h3>
+                <p>Полнофункциональный интернет-магазин с системой управления товарами, корзиной покупок, обработкой заказов и интеграцией с платежными системами. Реализована админ-панель для управления контентом и аналитики продаж.</p>
                 <div class="project-tech">
-                    <span>Python</span>
-                    <span>Aiogram</span>
-                    <span>PostgreSQL</span>
-                    <span>YooKassa API</span>
-                    <span>Redis</span>
-                    <span>Docker</span>
+                    <span>React</span>
+                    <span>Node.js</span>
+                    <span>MongoDB</span>
+                    <span>Stripe API</span>
+                    <span>JWT</span>
                 </div>
+                <a href="#" class="btn">Посмотреть проект</a>
             </div>
         </div>
     </div>
@@ -1234,82 +1273,103 @@
             <div class="project-modal-gallery">
                 <div class="project-modal-slides">
                     <div class="project-modal-slide">
-                        <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Проект 2">
+                        <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Корпоративный портал">
                     </div>
                     <div class="project-modal-slide">
-                        <img src="https://images.unsplash.com/photo-1547658719-da2b51169166?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Проект 2">
+                        <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Корпоративный портал - аналитика">
                     </div>
                 </div>
                 <div class="project-modal-nav">
-                    <button class="project-modal-prev"><i class="fas fa-chevron-left"></i></button>
-                    <button class="project-modal-next"><i class="fas fa-chevron-right"></i></button>
+                    <button class="modal-prev"><i class="fas fa-chevron-left"></i></button>
+                    <button class="modal-next"><i class="fas fa-chevron-right"></i></button>
                 </div>
             </div>
             <div class="project-modal-details">
-                <h3>Discord Бот для Геймерского Сообщества</h3>
-                <p>Комплексный Discord бот с системой модерации, экономикой, мини-играми и кастомными командами. Бот помогает поддерживать порядок в сообществе и развлекать участников.</p>
-                <p>Включает систему уровней, виртуальную валюту, ежедневные бонусы, мини-игры и автоматическую модерацию контента.</p>
+                <h3>Корпоративный портал</h3>
+                <p>Внутренняя система для управления бизнес-процессами компании. Включает модули для управления проектами, сотрудниками, документами и аналитики. Обеспечивает безопасный доступ и централизованное управление данными.</p>
                 <div class="project-tech">
-                    <span>Python</span>
-                    <span>Discord.py</span>
-                    <span>SQLite</span>
-                    <span>Web API</span>
-                    <span>JSON</span>
+                    <span>Vue.js</span>
+                    <span>Python/Django</span>
+                    <span>PostgreSQL</span>
+                    <span>Docker</span>
+                    <span>Redis</span>
                 </div>
+                <a href="#" class="btn">Посмотреть проект</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="project-modal" id="projectModal3">
+        <div class="project-modal-content">
+            <button class="close-modal"><i class="fas fa-times"></i></button>
+            <div class="project-modal-gallery">
+                <div class="project-modal-slides">
+                    <div class="project-modal-slide">
+                        <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Мобильное приложение">
+                    </div>
+                    <div class="project-modal-slide">
+                        <img src="https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Мобильное приложение - UI">
+                    </div>
+                </div>
+                <div class="project-modal-nav">
+                    <button class="modal-prev"><i class="fas fa-chevron-left"></i></button>
+                    <button class="modal-next"><i class="fas fa-chevron-right"></i></button>
+                </div>
+            </div>
+            <div class="project-modal-details">
+                <h3>Мобильное приложение для фитнеса</h3>
+                <p>Кроссплатформенное мобильное приложение для отслеживания тренировок, питания и прогресса. Включает персонализированные программы тренировок, трекинг активности и социальные функции для мотивации пользователей.</p>
+                <div class="project-tech">
+                    <span>React Native</span>
+                    <span>Firebase</span>
+                    <span>Redux</span>
+                    <span>Chart.js</span>
+                    <span>Push Notifications</span>
+                </div>
+                <a href="#" class="btn">Посмотреть проект</a>
             </div>
         </div>
     </div>
 
     <section id="pricing" class="pricing">
         <div class="container">
-            <h2 class="section-title fade-in">Мои <span>Услуги</span></h2>
+            <h2 class="section-title">Мои <span>Услуги</span></h2>
             <div class="pricing-grid">
                 <div class="price-card fade-in">
-                    <h3>Python код</h3>
+                    <h3>Веб-разработка</h3>
                     <ul>
-                        <li>Разработка под ключ по ТЗ</li>
-                        <li>Техподдержка 24/7</li>
-                        <li>Гарантия качества</li>
-                        <li>Оптимизация кода</li>
+                        <li>Адаптивный дизайн</li>
+                        <li>Frontend разработка</li>
+                        <li>Backend разработка</li>
+                        <li>Интеграция с API</li>
+                        <li>Тестирование и отладка</li>
                     </ul>
-                    <div class="price">от 500 ₽</div>
+                    <div class="price">от 30 000 ₽</div>
                     <a href="#contacts" class="btn">Заказать</a>
                 </div>
-                
-                <div class="price-card fade-in">
-                    <h3>Telegram Bot</h3>
+                <div class="price-card featured fade-in">
+                    <h3>Full-Stack Разработка</h3>
                     <ul>
-                        <li>Полная разработка бота</li>
-                        <li>Интеграция с БД</li>
-                        <li>Платежные системы</li>
-                        <li>Техподдержка 24/7</li>
-                        <li>Деплой на сервер</li>
+                        <li>Полный цикл разработки</li>
+                        <li>Проектирование архитектуры</li>
+                        <li>Базы данных и API</li>
+                        <li>DevOps и деплой</li>
+                        <li>Техническая поддержка</li>
+                        <li>Оптимизация производительности</li>
                     </ul>
-                    <div class="price">от 1000 ₽</div>
+                    <div class="price">от 60 000 ₽</div>
                     <a href="#contacts" class="btn">Заказать</a>
                 </div>
-                
                 <div class="price-card fade-in">
-                    <h3>Вконтакте Bot</h3>
+                    <h3>Мобильная разработка</h3>
                     <ul>
-                        <li>Бот под ключ</li>
-                        <li>Callback API / LongPoll</li>
-                        <li>Интеграция платежей</li>
-                        <li>Техподдержка 24/7</li>
+                        <li>Кроссплатформенные приложения</li>
+                        <li>UI/UX дизайн</li>
+                        <li>Интеграция с сервисами</li>
+                        <li>Публикация в магазинах</li>
+                        <li>Поддержка и обновления</li>
                     </ul>
-                    <div class="price">от 1 000 ₽</div>
-                    <a href="#contacts" class="btn">Заказать</a>
-                </div>
-
-                <div class="price-card fade-in">
-                    <h3>Discord Bot</h3>
-                    <ul>
-                        <li>Многофункциональный бот</li>
-                        <li>Модерация + экономика</li>
-                        <li>Мини-игры</li>
-                        <li>Техподдержка 24/7</li>
-                    </ul>
-                    <div class="price">от 1 000 ₽</div>
+                    <div class="price">от 45 000 ₽</div>
                     <a href="#contacts" class="btn">Заказать</a>
                 </div>
             </div>
@@ -1318,38 +1378,43 @@
 
     <section id="contacts" class="contacts">
         <div class="container">
-            <h2 class="section-title fade-in">Мои <span>Контакты</span></h2>
+            <h2 class="section-title">Мои <span>Контакты</span></h2>
             <div class="contact-info fade-in">
                 <div class="contacts-grid">
                     <div class="contact-card">
-                        <div class="contact-icon"><i class="fas fa-phone"></i></div>
+                        <div class="contact-icon">
+                            <i class="fas fa-phone"></i>
+                        </div>
                         <div class="contact-text">
                             <h4>Телефон</h4>
-                            <p>+7 (123) 456-78-90</p>
+                            <a href="tel:+79991234567">+7 (999) 123-45-67</a>
                         </div>
                     </div>
-                    
                     <div class="contact-card">
-                        <div class="contact-icon"><i class="fas fa-envelope"></i></div>
+                        <div class="contact-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
                         <div class="contact-text">
                             <h4>Email</h4>
-                            <p>dmitry@example.com</p>
+                            <a href="mailto:zhdanov.dmitry@example.com">zhdanov.dmitry@example.com</a>
                         </div>
                     </div>
-                    
                     <div class="contact-card">
-                        <div class="contact-icon"><i class="fab fa-telegram"></i></div>
+                        <div class="contact-icon">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
                         <div class="contact-text">
-                            <h4>Telegram</h4>
-                            <a href="https://t.me/dmitry_dev">@dmitry_dev</a>
+                            <h4>Адрес</h4>
+                            <p>г. Москва, ул. Примерная, д. 123</p>
                         </div>
                     </div>
-                    
                     <div class="contact-card">
-                        <div class="contact-icon"><i class="fab fa-vk"></i></div>
+                        <div class="contact-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
                         <div class="contact-text">
-                            <h4>ВКонтакте</h4>
-                            <a href="https://vk.com/dmitry_dev">vk.com/dmitry_dev</a>
+                            <h4>Время работы</h4>
+                            <p>Пн-Пт: 9:00 - 18:00</p>
                         </div>
                     </div>
                 </div>
@@ -1359,189 +1424,176 @@
 
     <footer>
         <div class="container">
-            <p>&copy; 2024 Жданов Дмитрий. Все права защищены.</p>
             <div class="social-links">
-                <a href="#"><i class="fab fa-telegram"></i></a>
                 <a href="#"><i class="fab fa-vk"></i></a>
+                <a href="#"><i class="fab fa-telegram"></i></a>
                 <a href="#"><i class="fab fa-github"></i></a>
-                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-linkedin"></i></a>
             </div>
+            <p>&copy; 2024 Жданов Дмитрий. Все права защищены.</p>
         </div>
     </footer>
 
     <script>
-        // Инициализация анимаций при загрузке
-        document.addEventListener('DOMContentLoaded', function() {
-            // Анимация появления элементов при скролле
-            const fadeElements = document.querySelectorAll('.fade-in');
-            
-            const fadeObserver = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('visible');
-                    }
-                });
-            }, { threshold: 0.1 });
-            
-            fadeElements.forEach(el => fadeObserver.observe(el));
-            
-            // Мобильное меню
-            const navToggle = document.getElementById('navToggle');
-            const mobileNav = document.getElementById('mobileNav');
-            const overlay = document.getElementById('overlay');
-            
-            navToggle.addEventListener('click', () => {
-                mobileNav.classList.toggle('active');
-                overlay.classList.toggle('active');
-                navToggle.classList.toggle('active');
-                document.body.style.overflow = mobileNav.classList.contains('active') ? 'hidden' : '';
-            });
-            
-            overlay.addEventListener('click', () => {
-                mobileNav.classList.remove('active');
-                overlay.classList.remove('active');
-                navToggle.classList.remove('active');
-                document.body.style.overflow = '';
-            });
-            
-            // Закрытие мобильного меню при клике на ссылку
-            const mobileNavLinks = document.querySelectorAll('.mobile-nav-links a');
-            mobileNavLinks.forEach(link => {
-                link.addEventListener('click', () => {
-                    mobileNav.classList.remove('active');
-                    overlay.classList.remove('active');
-                    navToggle.classList.remove('active');
-                    document.body.style.overflow = '';
-                });
-            });
-            
-            // Плавная прокрутка
-            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                anchor.addEventListener('click', function(e) {
-                    if (this.classList.contains('project-info-btn')) return;
-                    
-                    e.preventDefault();
-                    
-                    const targetId = this.getAttribute('href');
-                    if(targetId === '#') return;
-                    
-                    const targetElement = document.querySelector(targetId);
-                    if(targetElement) {
-                        window.scrollTo({
-                            top: targetElement.offsetTop - 80,
-                            behavior: 'smooth'
-                        });
-                    }
-                });
-            });
-            
-            // Галерея проектов
-            document.querySelectorAll('.project-card').forEach(card => {
-                const slides = card.querySelector('.project-slides');
-                const prevBtn = card.querySelector('.project-prev');
-                const nextBtn = card.querySelector('.project-next');
-                const slideCount = slides.children.length;
-                let currentSlide = 0;
-                
-                function showSlide(index) {
-                    if(index < 0) index = slideCount - 1;
-                    if(index >= slideCount) index = 0;
-                    
-                    slides.style.transform = `translateX(-${index * 100}%)`;
-                    currentSlide = index;
+        // Анимация появления элементов при скролле
+        const fadeElements = document.querySelectorAll('.fade-in');
+        
+        const appearOnScroll = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
                 }
+            });
+        }, { threshold: 0.1 });
+        
+        fadeElements.forEach(element => {
+            appearOnScroll.observe(element);
+        });
+        
+        // Мобильная навигация
+        const navToggle = document.getElementById('navToggle');
+        const mobileNav = document.getElementById('mobileNav');
+        const overlay = document.getElementById('overlay');
+        
+        function toggleMobileNav() {
+            navToggle.classList.toggle('active');
+            mobileNav.classList.toggle('active');
+            overlay.classList.toggle('active');
+            document.body.style.overflow = mobileNav.classList.contains('active') ? 'hidden' : '';
+        }
+        
+        navToggle.addEventListener('click', toggleMobileNav);
+        overlay.addEventListener('click', toggleMobileNav);
+        
+        // Закрытие мобильного меню при клике на ссылку
+        const mobileNavLinks = document.querySelectorAll('.mobile-nav-links a');
+        mobileNavLinks.forEach(link => {
+            link.addEventListener('click', toggleMobileNav);
+        });
+        
+        // Плавная прокрутка для навигации
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
                 
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+        
+        // Подсветка активного раздела в навигации
+        const sections = document.querySelectorAll('section');
+        const navLinks = document.querySelectorAll('.nav-links a, .mobile-nav-links a');
+        
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop - 100;
+                const sectionHeight = section.clientHeight;
+                if (scrollY >= sectionTop && scrollY < sectionTop + sectionHeight) {
+                    current = section.getAttribute('id');
+                }
+            });
+            
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === `#${current}`) {
+                    link.classList.add('active');
+                }
+            });
+        });
+        
+        // Галерея проектов
+        document.querySelectorAll('.project-card').forEach(card => {
+            const slides = card.querySelector('.project-slides');
+            const prevBtn = card.querySelector('.project-prev');
+            const nextBtn = card.querySelector('.project-next');
+            let currentSlide = 0;
+            const totalSlides = slides.children.length;
+            
+            function showSlide(index) {
+                if (index < 0) index = totalSlides - 1;
+                if (index >= totalSlides) index = 0;
+                
+                slides.style.transform = `translateX(-${index * 100}%)`;
+                currentSlide = index;
+            }
+            
+            if (prevBtn && nextBtn) {
                 prevBtn.addEventListener('click', () => showSlide(currentSlide - 1));
                 nextBtn.addEventListener('click', () => showSlide(currentSlide + 1));
-                
-                // Автопрокрутка
-                let slideInterval = setInterval(() => showSlide(currentSlide + 1), 5000);
-                
-                card.addEventListener('mouseenter', () => clearInterval(slideInterval));
-                card.addEventListener('mouseleave', () => {
-                    slideInterval = setInterval(() => showSlide(currentSlide + 1), 5000);
-                });
+            }
+        });
+        
+        // Модальные окна проектов
+        document.querySelectorAll('.project-info-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const projectId = this.getAttribute('data-project');
+                const modal = document.getElementById(`projectModal${projectId}`);
+                if (modal) {
+                    modal.classList.add('active');
+                    document.body.style.overflow = 'hidden';
+                }
             });
-            
-            // Модальные окна проектов
-            const projectButtons = document.querySelectorAll('.project-info-btn');
-            const modals = document.querySelectorAll('.project-modal');
-            const closeButtons = document.querySelectorAll('.close-modal');
-            
-            projectButtons.forEach(button => {
-                button.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    const projectId = button.getAttribute('data-project');
-                    const modal = document.getElementById(`projectModal${projectId}`);
-                    if (modal) {
-                        modal.classList.add('active');
-                        document.body.style.overflow = 'hidden';
-                        
-                        // Инициализация слайдера для модального окна
-                        const slides = modal.querySelector('.project-modal-slides');
-                        const prevBtn = modal.querySelector('.project-modal-prev');
-                        const nextBtn = modal.querySelector('.project-modal-next');
-                        const slideCount = slides.children.length;
-                        let currentSlide = 0;
-                        
-                        function showModalSlide(index) {
-                            if(index < 0) index = slideCount - 1;
-                            if(index >= slideCount) index = 0;
-                            
-                            slides.style.transform = `translateX(-${index * 100}%)`;
-                            currentSlide = index;
-                        }
-                        
-                        prevBtn.onclick = () => showModalSlide(currentSlide - 1);
-                        nextBtn.onclick = () => showModalSlide(currentSlide + 1);
-                    }
-                });
+        });
+        
+        // Закрытие модальных окон
+        document.querySelectorAll('.close-modal').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const modal = this.closest('.project-modal');
+                modal.classList.remove('active');
+                document.body.style.overflow = '';
             });
-            
-            closeButtons.forEach(button => {
-                button.addEventListener('click', () => {
-                    modals.forEach(modal => modal.classList.remove('active'));
+        });
+        
+        // Закрытие модального окна при клике вне его
+        document.querySelectorAll('.project-modal').forEach(modal => {
+            modal.addEventListener('click', function(e) {
+                if (e.target === this) {
+                    this.classList.remove('active');
                     document.body.style.overflow = '';
-                });
+                }
             });
+        });
+        
+        // Галерея в модальных окнах
+        document.querySelectorAll('.project-modal').forEach(modal => {
+            const slides = modal.querySelector('.project-modal-slides');
+            const prevBtn = modal.querySelector('.modal-prev');
+            const nextBtn = modal.querySelector('.modal-next');
+            let currentSlide = 0;
+            const totalSlides = slides.children.length;
             
-            // Закрытие модального окна при клике вне его
-            modals.forEach(modal => {
-                modal.addEventListener('click', (e) => {
-                    if (e.target === modal) {
-                        modal.classList.remove('active');
-                        document.body.style.overflow = '';
-                    }
-                });
-            });
-            
-            // Подсветка активного раздела (исключаем главную страницу при первой загрузке)
-            const sections = document.querySelectorAll('section[id]');
-            const navLinks = document.querySelectorAll('.nav-links a, .mobile-nav-links a');
-            
-            // Убираем активный класс со всех ссылок при первой загрузке
-            navLinks.forEach(link => link.classList.remove('active'));
-            
-            window.addEventListener('scroll', () => {
-                let current = '';
-                const scrollPosition = window.scrollY + 100;
+            function showSlide(index) {
+                if (index < 0) index = totalSlides - 1;
+                if (index >= totalSlides) index = 0;
                 
-                sections.forEach(section => {
-                    const sectionTop = section.offsetTop;
-                    const sectionHeight = section.clientHeight;
-                    
-                    if(scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
-                        current = section.getAttribute('id');
-                    }
-                });
-                
-                navLinks.forEach(link => {
-                    link.classList.remove('active');
-                    if(link.getAttribute('href') === `#${current}` && current !== 'hero') {
-                        link.classList.add('active');
-                    }
-                });
-            });
+                slides.style.transform = `translateX(-${index * 100}%)`;
+                currentSlide = index;
+            }
+            
+            if (prevBtn && nextBtn) {
+                prevBtn.addEventListener('click', () => showSlide(currentSlide - 1));
+                nextBtn.addEventListener('click', () => showSlide(currentSlide + 1));
+            }
+        });
+        
+        // Предотвращение горизонтального скролла
+        window.addEventListener('resize', function() {
+            document.body.style.overflowX = 'hidden';
+        });
+        
+        // Инициализация при загрузке
+        document.addEventListener('DOMContentLoaded', function() {
+            document.body.style.overflowX = 'hidden';
         });
     </script>
 </body>
