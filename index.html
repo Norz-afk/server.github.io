@@ -1,1 +1,1696 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Сайт-Портфолио | Жданов Дмитрий</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Roboto+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #0a0a0a;
+            --bg-gray: #1a1a1a;
+            --text-light: #f0f0f0;
+            --text-gray: #a0a0a0;
+            --accent: #ff6d00;
+            --accent-dark: #e65100;
+            --accent-glow: rgba(255, 109, 0, 0.3);
+            --header-h: 80px;
+            --nav-w: 280px;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Montserrat', sans-serif;
+        }
+        
+        body {
+            background: var(--bg-dark);
+            color: var(--text-light);
+            line-height: 1.6;
+            padding-top: var(--header-h);
+            overflow-x: hidden;
+        }
+        
+        /* Анимации */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+        
+        @keyframes glow {
+            0%, 100% {
+                box-shadow: 0 0 5px var(--accent-glow);
+            }
+            50% {
+                box-shadow: 0 0 20px var(--accent-glow);
+            }
+        }
+        
+        @keyframes typewriter {
+            from {
+                width: 0;
+            }
+            to {
+                width: 100%;
+            }
+        }
+        
+        @keyframes blink {
+            from, to {
+                border-color: transparent;
+            }
+            50% {
+                border-color: var(--accent);
+            }
+        }
+        
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+        }
+        
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Хедер */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: var(--header-h);
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(15px);
+            z-index: 1000;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.3);
+            display: flex;
+            align-items: center;
+            padding: 0 30px;
+            border-bottom: 1px solid rgba(255,109,0,0.2);
+        }
+        
+        .logo {
+            color: var(--accent);
+            font-weight: 700;
+            font-size: 1.8rem;
+            display: flex;
+            align-items: center;
+            margin-right: auto;
+            font-family: 'Roboto Mono', monospace;
+            text-shadow: 0 0 10px var(--accent-glow);
+        }
+        
+        .logo i {
+            margin-right: 12px;
+            font-size: 1.5rem;
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        /* Кастомный бургер */
+        .nav-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text-light);
+            font-size: 1.8rem;
+            cursor: pointer;
+            z-index: 1001;
+            width: 40px;
+            height: 40px;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-toggle:hover {
+            color: var(--accent);
+            transform: rotate(90deg);
+        }
+        
+        .nav-toggle span {
+            display: block;
+            width: 30px;
+            height: 3px;
+            background: currentColor;
+            margin: 6px 0;
+            transition: all 0.3s ease;
+            border-radius: 2px;
+        }
+        
+        .nav-toggle.active span:nth-child(1) {
+            transform: rotate(45deg) translate(6px, 6px);
+        }
+        
+        .nav-toggle.active span:nth-child(2) {
+            opacity: 0;
+        }
+        
+        .nav-toggle.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(8px, -8px);
+        }
+        
+        .nav-container {
+            display: flex;
+            align-items: center;
+            height: 100%;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+            height: 100%;
+        }
+        
+        .nav-links li {
+            position: relative;
+            height: 100%;
+            display: flex;
+            align-items: center;
+        }
+        
+        .nav-links a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1.1rem;
+            padding: 0 22px;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-links a i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+            font-size: 1.2rem;
+        }
+        
+        .nav-links a::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 22px;
+            right: 22px;
+            height: 3px;
+            background: var(--accent);
+            transform: scaleX(0);
+            transition: transform 0.4s ease;
+            border-radius: 2px;
+        }
+        
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--accent);
+            text-shadow: 0 0 8px var(--accent-glow);
+        }
+        
+        .nav-links a:hover::before,
+        .nav-links a.active::before {
+            transform: scaleX(1);
+        }
+        
+        /* Мобильная навигация */
+        .mobile-nav {
+            position: fixed;
+            top: 0;
+            left: -100%;
+            width: var(--nav-w);
+            height: 100vh;
+            background: rgba(26, 26, 26, 0.98);
+            z-index: 999;
+            transition: left 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            padding: 100px 30px 30px;
+            box-shadow: 5px 0 30px rgba(0,0,0,0.5);
+            overflow-y: auto;
+            backdrop-filter: blur(10px);
+        }
+        
+        .mobile-nav.active {
+            left: 0;
+        }
+        
+        .mobile-nav-links {
+            list-style: none;
+        }
+        
+        .mobile-nav-links li {
+            margin-bottom: 20px;
+            opacity: 0;
+            transform: translateX(-20px);
+            transition: all 0.4s ease;
+        }
+        
+        .mobile-nav.active .mobile-nav-links li {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        
+        .mobile-nav.active .mobile-nav-links li:nth-child(1) { transition-delay: 0.1s; }
+        .mobile-nav.active .mobile-nav-links li:nth-child(2) { transition-delay: 0.2s; }
+        .mobile-nav.active .mobile-nav-links li:nth-child(3) { transition-delay: 0.3s; }
+        .mobile-nav.active .mobile-nav-links li:nth-child(4) { transition-delay: 0.4s; }
+        
+        .mobile-nav-links a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-size: 1.3rem;
+            padding: 15px 20px;
+            display: block;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
+        }
+        
+        .mobile-nav-links a:hover,
+        .mobile-nav-links a.active {
+            background: rgba(255,109,0,0.1);
+            color: var(--accent);
+            border-color: rgba(255,109,0,0.3);
+            transform: translateX(10px);
+        }
+        
+        .mobile-nav-links i {
+            width: 30px;
+            text-align: center;
+            margin-right: 15px;
+            font-size: 1.4rem;
+        }
+        
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            z-index: 998;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.4s ease;
+        }
+        
+        .overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            width: 100%;
+        }
+        
+        section {
+            padding: 120px 0;
+            position: relative;
+        }
+        
+        /* Герой секция */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            text-align: center;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(255,109,0,0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255,109,0,0.05) 0%, transparent 50%),
+                linear-gradient(rgba(10,10,10,0.9), rgba(10,10,10,0.9)), 
+                url('https://images.unsplash.com/photo-1555066931-4365d14bab8c?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80') center/cover;
+        }
+        
+        .hero-content {
+            max-width: 900px;
+            margin: 0 auto;
+            width: 100%;
+        }
+        
+        .hero-content h1 {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            font-weight: 700;
+            background: linear-gradient(45deg, var(--accent), #ff9d00);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 30px var(--accent-glow);
+        }
+        
+        .typewriter {
+            overflow: hidden;
+            border-right: 3px solid var(--accent);
+            white-space: nowrap;
+            margin: 0 auto;
+            animation: 
+                typewriter 3s steps(40, end),
+                blink 0.75s step-end infinite;
+        }
+        
+        .hero-content p {
+            font-size: 1.4rem;
+            margin-bottom: 40px;
+            color: var(--text-gray);
+            font-family: 'Roboto Mono', monospace;
+        }
+        
+        .btn {
+            display: inline-block;
+            background: linear-gradient(45deg, var(--accent), var(--accent-dark));
+            color: white;
+            padding: 15px 40px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            border: none;
+            font-size: 1.1rem;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s ease;
+            box-shadow: 0 5px 15px rgba(255,109,0,0.3);
+        }
+        
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+        
+        .btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(255,109,0,0.5);
+            animation: glow 2s infinite;
+        }
+        
+        .btn:hover::before {
+            left: 100%;
+        }
+        
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--accent);
+            color: var(--accent);
+            margin-left: 15px;
+        }
+        
+        .btn-outline:hover {
+            background: var(--accent);
+            color: white;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 70px;
+            font-size: 3rem;
+            color: var(--text-light);
+            position: relative;
+            font-weight: 700;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            width: 100px;
+            height: 4px;
+            bottom: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(45deg, var(--accent), var(--accent-dark));
+            border-radius: 2px;
+        }
+        
+        .section-title span {
+            background: linear-gradient(45deg, var(--accent), #ff9d00);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        /* Навыки */
+        .skills {
+            background: 
+                radial-gradient(circle at 10% 20%, rgba(255,109,0,0.05) 0%, transparent 50%),
+                linear-gradient(rgba(10,10,10,0.95), rgba(10,10,10,0.95)), 
+                url('https://images.unsplash.com/photo-1498050108023-c5249f4df085?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80') center/cover;
+        }
+        
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 40px;
+        }
+        
+        .skill-card {
+            background: rgba(26,26,26,0.7);
+            padding: 40px 30px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(68,68,68,0.3);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .skill-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,109,0,0.1), transparent);
+            transition: left 0.6s;
+        }
+        
+        .skill-card:hover::before {
+            left: 100%;
+        }
+        
+        .skill-card:hover {
+            transform: translateY(-15px) scale(1.02);
+            border-color: rgba(255,109,0,0.5);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+        }
+        
+        .skill-card h3 {
+            color: var(--accent);
+            margin-bottom: 25px;
+            font-size: 1.6rem;
+            display: flex;
+            align-items: center;
+            font-weight: 600;
+        }
+        
+        .skill-card i {
+            margin-right: 15px;
+            font-size: 1.8rem;
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        .skill-card p {
+            color: var(--text-gray);
+            line-height: 1.8;
+            font-size: 1.1rem;
+        }
+        
+        /* Проекты */
+        .projects {
+            background: 
+                radial-gradient(circle at 90% 80%, rgba(255,109,0,0.05) 0%, transparent 50%),
+                linear-gradient(rgba(10,10,10,0.95), rgba(10,10,10,0.95)), 
+                url('https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80') center/cover;
+        }
+        
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 50px;
+        }
+        
+        .project-card {
+            background: rgba(26,26,26,0.7);
+            border-radius: 20px;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(68,68,68,0.3);
+            transition: all 0.4s ease;
+            position: relative;
+        }
+        
+        .project-card:hover {
+            transform: translateY(-15px) scale(1.02);
+            border-color: rgba(255,109,0,0.5);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+        }
+        
+        .project-gallery {
+            position: relative;
+            height: 280px;
+            overflow: hidden;
+        }
+        
+        .project-slides {
+            display: flex;
+            height: 100%;
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .project-slide {
+            min-width: 100%;
+            height: 100%;
+        }
+        
+        .project-slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+        
+        .project-card:hover .project-slide img {
+            transform: scale(1.1);
+        }
+        
+        .project-nav {
+            position: absolute;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .project-card:hover .project-nav {
+            opacity: 1;
+        }
+        
+        .project-nav button {
+            background: rgba(0,0,0,0.7);
+            color: white;
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
+        }
+        
+        .project-nav button:hover {
+            background: var(--accent);
+            transform: scale(1.1);
+        }
+        
+        .project-info-btn {
+            display: block;
+            text-align: center;
+            padding: 20px;
+            background: rgba(255,109,0,0.1);
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            font-size: 1.1rem;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+        }
+        
+        .project-info-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,109,0,0.2), transparent);
+            transition: left 0.5s;
+        }
+        
+        .project-info-btn:hover::before {
+            left: 100%;
+        }
+        
+        .project-info-btn:hover {
+            background: rgba(255,109,0,0.2);
+            letter-spacing: 1px;
+        }
 
+        /* Модальное окно проекта */
+        .project-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.9);
+            z-index: 1002;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .project-modal.active {
+            display: flex;
+        }
+
+        .project-modal-content {
+            background: var(--bg-gray);
+            max-width: 900px;
+            width: 100%;
+            max-height: 90vh;
+            border-radius: 20px;
+            overflow: hidden;
+            position: relative;
+            border: 2px solid var(--accent);
+            box-shadow: 0 0 50px rgba(255,109,0,0.3);
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(0,0,0,0.7);
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            z-index: 1;
+        }
+
+        .close-modal:hover {
+            background: var(--accent);
+            transform: rotate(90deg);
+        }
+
+        .project-modal-gallery {
+            position: relative;
+            height: 400px;
+            overflow: hidden;
+        }
+
+        .project-modal-slides {
+            display: flex;
+            height: 100%;
+            transition: transform 0.6s ease;
+        }
+
+        .project-modal-slide {
+            min-width: 100%;
+            height: 100%;
+        }
+
+        .project-modal-slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .project-modal-nav {
+            position: absolute;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+
+        .project-modal-nav button {
+            background: rgba(0,0,0,0.7);
+            color: white;
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .project-modal-nav button:hover {
+            background: var(--accent);
+            transform: scale(1.1);
+        }
+
+        .project-modal-details {
+            padding: 40px;
+            overflow-y: auto;
+            max-height: calc(90vh - 400px);
+        }
+
+        .project-modal-details h3 {
+            color: var(--accent);
+            font-size: 2rem;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        .project-modal-details p {
+            margin-bottom: 25px;
+            line-height: 1.8;
+            color: var(--text-gray);
+            font-size: 1.1rem;
+        }
+
+        .project-tech {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+
+        .project-tech span {
+            background: rgba(255,109,0,0.1);
+            color: var(--accent);
+            padding: 8px 20px;
+            border-radius: 25px;
+            font-size: 0.9rem;
+            border: 1px solid rgba(255,109,0,0.3);
+            font-family: 'Roboto Mono', monospace;
+        }
+        
+        /* Услуги */
+        .pricing {
+            background: 
+                radial-gradient(circle at 50% 30%, rgba(255,109,0,0.08) 0%, transparent 50%),
+                linear-gradient(rgba(10,10,10,0.95), rgba(10,10,10,0.95)), 
+                url('https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80') center/cover;
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 40px;
+        }
+
+        .price-card {
+            background: rgba(26,26,26,0.7);
+            padding: 40px 30px;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(68,68,68,0.3);
+            text-align: center;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .price-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(45deg, var(--accent), var(--accent-dark));
+            transform: scaleX(0);
+            transition: transform 0.4s ease;
+        }
+
+        .price-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .price-card:hover {
+            transform: translateY(-15px);
+            border-color: rgba(255,109,0,0.5);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+        
+        .price-card.featured {
+            border: 2px solid var(--accent);
+            transform: scale(1.05);
+            background: rgba(26,26,26,0.9);
+        }
+        
+        .price-card.featured::before {
+            transform: scaleX(1);
+            height: 6px;
+            background: linear-gradient(45deg, var(--accent), #ff9d00, var(--accent));
+            background-size: 200% 100%;
+            animation: gradientShift 3s ease infinite;
+        }
+        
+        .price-card.featured:hover {
+            transform: scale(1.05) translateY(-15px);
+            box-shadow: 0 25px 50px rgba(255,109,0,0.2);
+        }
+        
+        .price-card h3 {
+            color: var(--accent);
+            margin-bottom: 25px;
+            font-size: 1.8rem;
+            font-weight: 600;
+        }
+
+        .price-card ul {
+            list-style: none;
+            margin-bottom: 30px;
+            text-align: left;
+        }
+
+        .price-card ul li {
+            margin-bottom: 15px;
+            padding-left: 35px;
+            position: relative;
+            color: var(--text-gray);
+        }
+
+        .price-card ul li::before {
+            content: '\f00c';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            color: var(--accent);
+            position: absolute;
+            left: 0;
+            font-size: 1.1rem;
+        }
+
+        .price {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--accent);
+            margin: 25px 0;
+            text-shadow: 0 0 10px var(--accent-glow);
+        }
+
+        @keyframes gradientShift {
+            0%, 100% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+        }
+        
+        /* Контакты */
+        .contacts {
+            background: 
+                radial-gradient(circle at 70% 60%, rgba(255,109,0,0.05) 0%, transparent 50%),
+                linear-gradient(rgba(10,10,10,0.95), rgba(10,10,10,0.95)), 
+                url('https://images.unsplash.com/photo-1523961131990-5ea7c61b2107?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80') center/cover;
+        }
+        
+        .contact-info {
+            background: rgba(26,26,26,0.8);
+            padding: 80px 60px;
+            border-radius: 20px;
+            max-width: 900px;
+            margin: 0 auto;
+            backdrop-filter: blur(15px);
+            border: 1px solid var(--accent);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+        
+        .contacts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 40px;
+        }
+        
+        .contact-card {
+            display: flex;
+            align-items: center;
+            padding: 30px 25px;
+            background: rgba(42,42,42,0.6);
+            border-radius: 15px;
+            transition: all 0.4s ease;
+            border: 1px solid transparent;
+        }
+        
+        .contact-card:hover {
+            transform: translateY(-10px);
+            border-color: rgba(255,109,0,0.3);
+            background: rgba(42,42,42,0.8);
+        }
+        
+        .contact-icon {
+            width: 70px;
+            height: 70px;
+            background: rgba(255,109,0,0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 25px;
+            color: var(--accent);
+            font-size: 1.8rem;
+            transition: all 0.3s ease;
+        }
+        
+        .contact-card:hover .contact-icon {
+            background: var(--accent);
+            color: white;
+            transform: scale(1.1) rotate(10deg);
+        }
+        
+        .contact-text h4 {
+            margin-bottom: 10px;
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+        
+        .contact-text p, 
+        .contact-text a {
+            color: var(--text-gray);
+            text-decoration: none;
+            font-size: 1.1rem;
+            transition: color 0.3s ease;
+        }
+        
+        .contact-text a:hover {
+            color: var(--accent);
+        }
+        
+        /* Футер */
+        footer {
+            background: var(--bg-gray);
+            padding: 50px 0 30px;
+            text-align: center;
+            border-top: 1px solid rgba(255,109,0,0.2);
+        }
+        
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin: 30px 0;
+        }
+        
+        .social-links a {
+            color: var(--text-light);
+            font-size: 1.8rem;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.4s ease;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid transparent;
+        }
+        
+        .social-links a:hover {
+            color: var(--accent);
+            transform: translateY(-8px) scale(1.1);
+            background: rgba(255,109,0,0.1);
+            border-color: rgba(255,109,0,0.3);
+            box-shadow: 0 10px 20px rgba(255,109,0,0.2);
+        }
+        
+        /* Адаптивность */
+        @media (max-width: 1200px) {
+            .container {
+                padding: 0 20px;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .hero-content h1 { font-size: 3.2rem; }
+            .section-title { font-size: 2.5rem; }
+            .contact-info { padding: 60px 40px; }
+            .project-modal-content { max-width: 95%; }
+        }
+
+        @media (max-width: 768px) {
+            .nav-toggle { 
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+            }
+            .nav-links { display: none; }
+            .hero-content h1 { font-size: 2.8rem; }
+            .hero-content p { font-size: 1.2rem; }
+            .section-title { font-size: 2.2rem; }
+            .skills-grid, .pricing-grid, .projects-grid { 
+                grid-template-columns: 1fr; 
+                gap: 30px;
+            }
+            .contact-info { 
+                padding: 40px 30px; 
+                margin: 0 15px;
+            }
+            .btn-container { 
+                display: flex; 
+                flex-direction: column; 
+                gap: 15px; 
+            }
+            .btn-outline { margin-left: 0; }
+            .project-modal-gallery { height: 300px; }
+            .project-modal-details { padding: 25px; }
+            .project-card {
+                margin: 0 10px;
+            }
+            .projects-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+            .skill-card, .price-card {
+                margin: 0 10px;
+            }
+            .container {
+                padding: 0 15px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            :root { 
+                --header-h: 70px; 
+                --nav-w: 85%; 
+            }
+            header { 
+                padding: 0 20px; 
+            }
+            .logo { 
+                font-size: 1.5rem; 
+            }
+            .hero-content h1 { 
+                font-size: 2.2rem; 
+                line-height: 1.2;
+            }
+            .hero-content p {
+                font-size: 1.1rem;
+                padding: 0 10px;
+            }
+            .section-title { 
+                font-size: 2rem; 
+                margin-bottom: 50px;
+            }
+            .skill-card, .price-card, .contact-card { 
+                padding: 25px 20px; 
+                margin: 0 5px;
+            }
+            .projects-grid { 
+                grid-template-columns: 1fr; 
+                gap: 20px;
+            }
+            .project-card { 
+                margin: 0 5px; 
+            }
+            .contact-info { 
+                padding: 30px 20px; 
+                margin: 0 10px;
+            }
+            .project-modal-gallery { 
+                height: 250px; 
+            }
+            .project-modal-details { 
+                padding: 20px; 
+            }
+            .contacts-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            .contact-card {
+                padding: 20px 15px;
+            }
+            .contact-icon {
+                width: 50px;
+                height: 50px;
+                margin-right: 15px;
+                font-size: 1.4rem;
+            }
+            .social-links a {
+                width: 50px;
+                height: 50px;
+                font-size: 1.5rem;
+            }
+            .mobile-nav {
+                width: var(--nav-w);
+            }
+            .container {
+                padding: 0 10px;
+            }
+            section {
+                padding: 80px 0;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .hero-content h1 { font-size: 1.8rem; }
+            .section-title { font-size: 1.8rem; }
+            .btn { 
+                padding: 12px 30px; 
+                font-size: 1rem;
+            }
+            .skill-card h3, .price-card h3 { font-size: 1.4rem; }
+            .project-modal-details h3 { font-size: 1.6rem; }
+            .contact-text h4 { font-size: 1.2rem; }
+            .contact-text p, .contact-text a { font-size: 1rem; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Хедер -->
+    <header>
+        <div class="logo">
+            <i class="fas fa-code"></i>
+            <span>Жданов Дмитрий</span>
+        </div>
+        
+        <div class="nav-container">
+            <button class="nav-toggle" id="navToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            
+            <ul class="nav-links">
+                <li><a href="#home" class="active"><i class="fas fa-home"></i> Главная</a></li>
+                <li><a href="#skills"><i class="fas fa-cogs"></i> Навыки</a></li>
+                <li><a href="#projects"><i class="fas fa-briefcase"></i> Проекты</a></li>
+                <li><a href="#pricing"><i class="fas fa-tags"></i> Услуги</a></li>
+                <li><a href="#contacts"><i class="fas fa-envelope"></i> Контакты</a></li>
+            </ul>
+        </div>
+    </header>
+    
+    <!-- Мобильная навигация -->
+    <div class="mobile-nav" id="mobileNav">
+        <ul class="mobile-nav-links">
+            <li><a href="#home" class="active"><i class="fas fa-home"></i> Главная</a></li>
+            <li><a href="#skills"><i class="fas fa-cogs"></i> Навыки</a></li>
+            <li><a href="#projects"><i class="fas fa-briefcase"></i> Проекты</a></li>
+            <li><a href="#pricing"><i class="fas fa-tags"></i> Услуги</a></li>
+            <li><a href="#contacts"><i class="fas fa-envelope"></i> Контакты</a></li>
+        </ul>
+    </div>
+    
+    <div class="overlay" id="overlay"></div>
+    
+    <!-- Главная секция -->
+    <section id="home" class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Жданов Дмитрий</h1>
+                <div class="typewriter-container">
+                    <p class="typewriter">Full-Stack Разработчик & UI/UX Дизайнер</p>
+                </div>
+                <p>Создаю современные веб-приложения с фокусом на пользовательский опыт и производительность</p>
+                <div class="btn-container">
+                    <a href="#projects" class="btn">Мои проекты</a>
+                    <a href="#contacts" class="btn btn-outline">Связаться</a>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Навыки -->
+    <section id="skills" class="skills">
+        <div class="container">
+            <h2 class="section-title">Мои <span>Навыки</span></h2>
+            
+            <div class="skills-grid">
+                <div class="skill-card fade-in">
+                    <h3><i class="fab fa-js"></i> Frontend Разработка</h3>
+                    <p>Современный JavaScript (ES6+), React, Vue.js, TypeScript. Создание адаптивных и интерактивных пользовательских интерфейсов с использованием современных инструментов и библиотек.</p>
+                </div>
+                
+                <div class="skill-card fade-in">
+                    <h3><i class="fas fa-server"></i> Backend Разработка</h3>
+                    <p>Node.js, Express, Python, Django, базы данных (MongoDB, PostgreSQL). Разработка надежных и масштабируемых серверных приложений и RESTful API.</p>
+                </div>
+                
+                <div class="skill-card fade-in">
+                    <h3><i class="fas fa-palette"></i> UI/UX Дизайн</h3>
+                    <p>Проектирование пользовательских интерфейсов, создание прототипов, дизайн-системы. Опыт работы с Figma, Adobe XD и принципами юзабилити.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Проекты -->
+    <section id="projects" class="projects">
+        <div class="container">
+            <h2 class="section-title">Мои <span>Проекты</span></h2>
+            
+            <div class="projects-grid">
+                <!-- Проект 1 -->
+                <div class="project-card fade-in">
+                    <div class="project-gallery">
+                        <div class="project-slides">
+                            <div class="project-slide">
+                                <img src="https://images.unsplash.com/photo-1551650975-87deedd944c3?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="E-commerce Platform">
+                            </div>
+                            <div class="project-slide">
+                                <img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="E-commerce Platform">
+                            </div>
+                        </div>
+                        <div class="project-nav">
+                            <button class="project-prev"><i class="fas fa-chevron-left"></i></button>
+                            <button class="project-next"><i class="fas fa-chevron-right"></i></button>
+                        </div>
+                    </div>
+                    <a href="#" class="project-info-btn" data-project="1">Подробнее о проекте</a>
+                </div>
+                
+                <!-- Проект 2 -->
+                <div class="project-card fade-in">
+                    <div class="project-gallery">
+                        <div class="project-slides">
+                            <div class="project-slide">
+                                <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Analytics Dashboard">
+                            </div>
+                            <div class="project-slide">
+                                <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Analytics Dashboard">
+                            </div>
+                        </div>
+                        <div class="project-nav">
+                            <button class="project-prev"><i class="fas fa-chevron-left"></i></button>
+                            <button class="project-next"><i class="fas fa-chevron-right"></i></button>
+                        </div>
+                    </div>
+                    <a href="#" class="project-info-btn" data-project="2">Подробнее о проекте</a>
+                </div>
+                
+                <!-- Проект 3 -->
+                <div class="project-card fade-in">
+                    <div class="project-gallery">
+                        <div class="project-slides">
+                            <div class="project-slide">
+                                <img src="https://images.unsplash.com/photo-1551434678-e076c223a692?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Task Management App">
+                            </div>
+                            <div class="project-slide">
+                                <img src="https://images.unsplash.com/photo-1611224923853-80b023f02d71?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Task Management App">
+                            </div>
+                        </div>
+                        <div class="project-nav">
+                            <button class="project-prev"><i class="fas fa-chevron-left"></i></button>
+                            <button class="project-next"><i class="fas fa-chevron-right"></i></button>
+                        </div>
+                    </div>
+                    <a href="#" class="project-info-btn" data-project="3">Подробнее о проекте</a>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Модальные окна проектов -->
+    <div class="project-modal" id="projectModal1">
+        <div class="project-modal-content">
+            <button class="close-modal"><i class="fas fa-times"></i></button>
+            <div class="project-modal-gallery">
+                <div class="project-modal-slides">
+                    <div class="project-modal-slide">
+                        <img src="https://images.unsplash.com/photo-1551650975-87deedd944c3?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="E-commerce Platform">
+                    </div>
+                    <div class="project-modal-slide">
+                        <img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="E-commerce Platform">
+                    </div>
+                </div>
+                <div class="project-modal-nav">
+                    <button class="project-modal-prev"><i class="fas fa-chevron-left"></i></button>
+                    <button class="project-modal-next"><i class="fas fa-chevron-right"></i></button>
+                </div>
+            </div>
+            <div class="project-modal-details">
+                <h3>E-commerce Platform</h3>
+                <p>Полнофункциональная платформа электронной коммерции с системой управления заказами, интеграцией платежных систем и административной панелью. Проект включает в себя современный интерфейс пользователя и мощную backend-систему.</p>
+                <div class="project-tech">
+                    <span>React</span>
+                    <span>Node.js</span>
+                    <span>MongoDB</span>
+                    <span>Stripe API</span>
+                    <span>AWS</span>
+                </div>
+                <p>Платформа поддерживает тысячи пользователей, обладает высокой производительностью и безопасностью. Реализована система рекомендаций на основе машинного обучения и аналитика продаж.</p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="project-modal" id="projectModal2">
+        <div class="project-modal-content">
+            <button class="close-modal"><i class="fas fa-times"></i></button>
+            <div class="project-modal-gallery">
+                <div class="project-modal-slides">
+                    <div class="project-modal-slide">
+                        <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Analytics Dashboard">
+                    </div>
+                    <div class="project-modal-slide">
+                        <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Analytics Dashboard">
+                    </div>
+                </div>
+                <div class="project-modal-nav">
+                    <button class="project-modal-prev"><i class="fas fa-chevron-left"></i></button>
+                    <button class="project-modal-next"><i class="fas fa-chevron-right"></i></button>
+                </div>
+            </div>
+            <div class="project-modal-details">
+                <h3>Analytics Dashboard</h3>
+                <p>Интерактивная панель аналитики для мониторинга бизнес-показателей в реальном времени. Включает различные типы визуализаций данных, настраиваемые отчеты и систему оповещений.</p>
+                <div class="project-tech">
+                    <span>Vue.js</span>
+                    <span>D3.js</span>
+                    <span>Python</span>
+                    <span>FastAPI</span>
+                    <span>PostgreSQL</span>
+                </div>
+                <p>Панель управления позволяет компаниям отслеживать ключевые метрики, выявлять тенденции и принимать обоснованные решения на основе данных. Поддерживает интеграцию с различными источниками данных и экспорт отчетов.</p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="project-modal" id="projectModal3">
+        <div class="project-modal-content">
+            <button class="close-modal"><i class="fas fa-times"></i></button>
+            <div class="project-modal-gallery">
+                <div class="project-modal-slides">
+                    <div class="project-modal-slide">
+                        <img src="https://images.unsplash.com/photo-1551434678-e076c223a692?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Task Management App">
+                    </div>
+                    <div class="project-modal-slide">
+                        <img src="https://images.unsplash.com/photo-1611224923853-80b023f02d71?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Task Management App">
+                    </div>
+                </div>
+                <div class="project-modal-nav">
+                    <button class="project-modal-prev"><i class="fas fa-chevron-left"></i></button>
+                    <button class="project-modal-next"><i class="fas fa-chevron-right"></i></button>
+                </div>
+            </div>
+            <div class="project-modal-details">
+                <h3>Task Management App</h3>
+                <p>Продуктивное приложение для управления задачами и проектами с функциями совместной работы. Включает канбан-доски, временные трекеры, уведомления и интеграцию с календарем.</p>
+                <div class="project-tech">
+                    <span>React Native</span>
+                    <span>Firebase</span>
+                    <span>Redux</span>
+                    <span>Node.js</span>
+                    <span>MongoDB</span>
+                </div>
+                <p>Приложение помогает командам эффективно организовывать рабочие процессы, назначать задачи, отслеживать прогресс и улучшать коммуникацию. Доступно на всех платформах с синхронизацией в реальном времени.</p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Услуги -->
+    <section id="pricing" class="pricing">
+        <div class="container">
+            <h2 class="section-title">Мои <span>Услуги</span></h2>
+            
+            <div class="pricing-grid">
+                <div class="price-card fade-in">
+                    <h3>Веб-Разработка</h3>
+                    <ul>
+                        <li>Адаптивный дизайн</li>
+                        <li>Frontend разработка</li>
+                        <li>Backend разработка</li>
+                        <li>Интеграция API</li>
+                        <li>Тестирование и отладка</li>
+                    </ul>
+                    <div class="price">от 30 000₽</div>
+                    <a href="#contacts" class="btn">Заказать</a>
+                </div>
+                
+                <div class="price-card featured fade-in">
+                    <h3>Полный Цикл</h3>
+                    <ul>
+                        <li>Проектирование UI/UX</li>
+                        <li>Прототипирование</li>
+                        <li>Full-stack разработка</li>
+                        <li>База данных</li>
+                        <li>Хостинг и деплой</li>
+                        <li>Техническая поддержка</li>
+                    </ul>
+                    <div class="price">от 70 000₽</div>
+                    <a href="#contacts" class="btn">Заказать</a>
+                </div>
+                
+                <div class="price-card fade-in">
+                    <h3>UI/UX Дизайн</h3>
+                    <ul>
+                        <li>Исследование пользователей</li>
+                        <li>Прототипы и вайрфреймы</li>
+                        <li>Визуальный дизайн</li>
+                        <li>Дизайн-система</li>
+                        <li>Тестирование юзабилити</li>
+                    </ul>
+                    <div class="price">от 25 000₽</div>
+                    <a href="#contacts" class="btn">Заказать</a>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Контакты -->
+    <section id="contacts" class="contacts">
+        <div class="container">
+            <h2 class="section-title">Мои <span>Контакты</span></h2>
+            
+            <div class="contact-info fade-in">
+                <div class="contacts-grid">
+                    <div class="contact-card">
+                        <div class="contact-icon">
+                            <i class="fas fa-phone"></i>
+                        </div>
+                        <div class="contact-text">
+                            <h4>Телефон</h4>
+                            <a href="tel:+79991234567">+7 (999) 123-45-67</a>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-card">
+                        <div class="contact-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div class="contact-text">
+                            <h4>Email</h4>
+                            <a href="mailto:zhdanov.dmitry@example.com">zhdanov.dmitry@example.com</a>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-card">
+                        <div class="contact-icon">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <div class="contact-text">
+                            <h4>Адрес</h4>
+                            <p>г. Москва, ул. Примерная, д. 123</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Футер -->
+    <footer>
+        <div class="container">
+            <div class="social-links">
+                <a href="#"><i class="fab fa-github"></i></a>
+                <a href="#"><i class="fab fa-telegram"></i></a>
+                <a href="#"><i class="fab fa-vk"></i></a>
+                <a href="#"><i class="fab fa-linkedin"></i></a>
+            </div>
+            <p>&copy; 2023 Жданов Дмитрий. Все права защищены.</p>
+        </div>
+    </footer>
+    
+    <script>
+        // Навигация
+        const navToggle = document.getElementById('navToggle');
+        const mobileNav = document.getElementById('mobileNav');
+        const overlay = document.getElementById('overlay');
+        const mobileNavLinks = document.querySelectorAll('.mobile-nav-links a');
+        
+        navToggle.addEventListener('click', () => {
+            navToggle.classList.toggle('active');
+            mobileNav.classList.toggle('active');
+            overlay.classList.toggle('active');
+            document.body.style.overflow = mobileNav.classList.contains('active') ? 'hidden' : '';
+        });
+        
+        overlay.addEventListener('click', () => {
+            navToggle.classList.remove('active');
+            mobileNav.classList.remove('active');
+            overlay.classList.remove('active');
+            document.body.style.overflow = '';
+        });
+        
+        mobileNavLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                navToggle.classList.remove('active');
+                mobileNav.classList.remove('active');
+                overlay.classList.remove('active');
+                document.body.style.overflow = '';
+            });
+        });
+        
+        // Плавная прокрутка
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+        
+        // Активная ссылка в навигации
+        window.addEventListener('scroll', () => {
+            const sections = document.querySelectorAll('section');
+            const navLinks = document.querySelectorAll('.nav-links a, .mobile-nav-links a');
+            
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (pageYOffset >= sectionTop - 100) {
+                    current = section.getAttribute('id');
+                }
+            });
+            
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === `#${current}`) {
+                    link.classList.add('active');
+                }
+            });
+        });
+        
+        // Анимация появления элементов при скролле
+        const fadeElements = document.querySelectorAll('.fade-in');
+        
+        const fadeInObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+        
+        fadeElements.forEach(element => {
+            fadeInObserver.observe(element);
+        });
+        
+        // Галерея проектов
+        document.querySelectorAll('.project-card').forEach(card => {
+            const slides = card.querySelector('.project-slides');
+            const prevBtn = card.querySelector('.project-prev');
+            const nextBtn = card.querySelector('.project-next');
+            let currentSlide = 0;
+            const totalSlides = slides.children.length;
+            
+            function showSlide(index) {
+                if (index < 0) {
+                    currentSlide = totalSlides - 1;
+                } else if (index >= totalSlides) {
+                    currentSlide = 0;
+                } else {
+                    currentSlide = index;
+                }
+                
+                slides.style.transform = `translateX(-${currentSlide * 100}%)`;
+            }
+            
+            prevBtn.addEventListener('click', () => {
+                showSlide(currentSlide - 1);
+            });
+            
+            nextBtn.addEventListener('click', () => {
+                showSlide(currentSlide + 1);
+            });
+            
+            // Автопереключение слайдов
+            setInterval(() => {
+                if (card.matches(':hover')) {
+                    showSlide(currentSlide + 1);
+                }
+            }, 5000);
+        });
+        
+        // Модальные окна проектов
+        document.querySelectorAll('.project-info-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                const projectId = btn.getAttribute('data-project');
+                const modal = document.getElementById(`projectModal${projectId}`);
+                modal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            });
+        });
+        
+        document.querySelectorAll('.close-modal').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const modal = btn.closest('.project-modal');
+                modal.classList.remove('active');
+                document.body.style.overflow = '';
+            });
+        });
+        
+        // Галерея в модальных окнах
+        document.querySelectorAll('.project-modal').forEach(modal => {
+            const slides = modal.querySelector('.project-modal-slides');
+            const prevBtn = modal.querySelector('.project-modal-prev');
+            const nextBtn = modal.querySelector('.project-modal-next');
+            let currentSlide = 0;
+            const totalSlides = slides.children.length;
+            
+            function showSlide(index) {
+                if (index < 0) {
+                    currentSlide = totalSlides - 1;
+                } else if (index >= totalSlides) {
+                    currentSlide = 0;
+                } else {
+                    currentSlide = index;
+                }
+                
+                slides.style.transform = `translateX(-${currentSlide * 100}%)`;
+            }
+            
+            prevBtn.addEventListener('click', () => {
+                showSlide(currentSlide - 1);
+            });
+            
+            nextBtn.addEventListener('click', () => {
+                showSlide(currentSlide + 1);
+            });
+        });
+        
+        // Закрытие модальных окон по клику вне контента
+        document.querySelectorAll('.project-modal').forEach(modal => {
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    modal.classList.remove('active');
+                    document.body.style.overflow = '';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
