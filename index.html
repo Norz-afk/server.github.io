@@ -111,16 +111,42 @@
             color: var(--tg-theme-hint-color, #999999);
         }
 
+        .error-screen {
+            display: none;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .error-icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+
+        .retry-button {
+            background: var(--tg-theme-button-color, #2481cc);
+            color: var(--tg-theme-button-text-color, #ffffff);
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
         /* Стили основного приложения */
         #mainApp {
             display: none;
-            padding: 16px;
             min-height: 100vh;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
         }
 
         .container {
             max-width: 400px;
             margin: 0 auto;
+            padding: 16px;
+            min-height: 100vh;
         }
 
         .header {
@@ -177,32 +203,6 @@
             font-size: 14px;
         }
 
-        .stats {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-            margin: 20px 0;
-        }
-
-        .stat-item {
-            text-align: center;
-            padding: 12px;
-            background: var(--tg-theme-bg-color, #ffffff);
-            border-radius: 8px;
-        }
-
-        .stat-value {
-            font-size: 20px;
-            font-weight: bold;
-            color: var(--tg-theme-button-color, #2481cc);
-            margin-bottom: 4px;
-        }
-
-        .stat-label {
-            font-size: 12px;
-            color: var(--tg-theme-hint-color, #999999);
-        }
-
         .button {
             background: var(--tg-theme-button-color, #2481cc);
             color: var(--tg-theme-button-text-color, #ffffff);
@@ -214,6 +214,7 @@
             cursor: pointer;
             width: 100%;
             transition: opacity 0.2s ease;
+            margin-top: 20px;
         }
 
         .button:hover {
@@ -222,35 +223,6 @@
 
         .button:active {
             opacity: 0.8;
-        }
-
-        .feature-list {
-            list-style: none;
-            margin: 20px 0;
-        }
-
-        .feature-list li {
-            padding: 12px 0;
-            border-bottom: 1px solid var(--tg-theme-secondary-bg-color, #f4f4f5);
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .feature-list li:last-child {
-            border-bottom: none;
-        }
-
-        .feature-icon {
-            width: 24px;
-            height: 24px;
-            background: var(--tg-theme-button-color, #2481cc);
-            border-radius: 6px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 12px;
         }
 
         .theme-toggle {
@@ -270,13 +242,14 @@
             z-index: 100;
         }
 
+        .content {
+            margin: 20px 0;
+            line-height: 1.6;
+        }
+
         @media (max-width: 480px) {
             .container {
                 padding: 0 8px;
-            }
-            
-            .stats {
-                grid-template-columns: 1fr;
             }
         }
     </style>
@@ -302,6 +275,17 @@
         </div>
     </div>
 
+    <!-- Экран ошибки -->
+    <div id="errorScreen" class="error-screen">
+        <div class="loading-content">
+            <div class="error-icon">❌</div>
+            <h2>Ошибка загрузки</h2>
+            <p id="errorMessage">Не удалось загрузить данные пользователя</p>
+            <div class="debug-info" id="errorDebugInfo"></div>
+            <button class="retry-button" onclick="retryLoading()">Повторить попытку</button>
+        </div>
+    </div>
+
     <!-- Основное приложение -->
     <div id="mainApp">
         <button class="theme-toggle" onclick="toggleTheme()">🌙</button>
@@ -317,48 +301,39 @@
                     <div class="avatar" id="userAvatar">U</div>
                     <div class="user-details">
                         <h3 id="userName">Пользователь</h3>
-                        <p id="userStatus">Загрузка...</p>
+                        <p id="userStatus">Telegram пользователь</p>
                     </div>
                 </div>
             </div>
 
             <div class="card">
-                <h3 style="margin-bottom: 16px;">Статистика</h3>
-                <div class="stats">
-                    <div class="stat-item">
-                        <div class="stat-value" id="stat1">0</div>
-                        <div class="stat-label">Дней с нами</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-value" id="stat2">0</div>
-                        <div class="stat-label">Выполнено задач</div>
-                    </div>
+                <h3 style="margin-bottom: 16px;">О приложении</h3>
+                <div class="content">
+                    <p>Это демонстрационное приложение для Telegram Mini Apps.</p>
+                    <p style="margin-top: 10px;">Здесь отображается информация о вашем аккаунте Telegram.</p>
                 </div>
-            </div>
-
-            <div class="card">
-                <h3 style="margin-bottom: 16px;">Функции</h3>
-                <ul class="feature-list">
-                    <li>
-                        <div class="feature-icon">✓</div>
-                        <span>Быстрый доступ</span>
-                    </li>
-                    <li>
-                        <div class="feature-icon">⚡</div>
-                        <span>Высокая скорость</span>
-                    </li>
-                    <li>
-                        <div class="feature-icon">🔒</div>
-                        <span>Безопасность</span>
-                    </li>
-                    <li>
-                        <div class="feature-icon">🎯</div>
-                        <span>Простота использования</span>
-                    </li>
-                </ul>
             </div>
 
             <button class="button" onclick="showAlert()">Нажми меня!</button>
+
+            <!-- Добавляем контент для прокрутки -->
+            <div class="card">
+                <h3 style="margin-bottom: 16px;">Дополнительная информация</h3>
+                <div class="content">
+                    <p>Этот контент добавлен для демонстрации возможности прокрутки страницы вверх и вниз.</p>
+                    <p style="margin-top: 10px;">Вы можете свободно скроллить страницу чтобы увидеть весь контент.</p>
+                    <p style="margin-top: 10px;">Приложение полностью адаптировано для мобильных устройств и поддерживает плавную прокрутку.</p>
+                    <p style="margin-top: 10px;">Если у вас возникли проблемы с прокруткой, попробуйте перезагрузить приложение.</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3 style="margin-bottom: 16px;">Еще один блок</h3>
+                <div class="content">
+                    <p>Просто дополнительный контент чтобы страница была длиннее и можно было проверить прокрутку.</p>
+                    <p style="margin-top: 10px;">Прокручивайте вниз чтобы увидеть больше контента...</p>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -371,6 +346,9 @@
         const statusMessage = document.getElementById('statusMessage');
         const loadingScreen = document.getElementById('loadingScreen');
         const mainApp = document.getElementById('mainApp');
+        const errorScreen = document.getElementById('errorScreen');
+        const errorMessage = document.getElementById('errorMessage');
+        const errorDebugInfo = document.getElementById('errorDebugInfo');
 
         // Функции для работы с загрузочным экраном
         function updateProgress(value, message) {
@@ -391,6 +369,15 @@
             debugInfo.scrollTop = debugInfo.scrollHeight;
         }
 
+        function addErrorMessage(message) {
+            const timestamp = new Date().toLocaleTimeString();
+            const errorItem = document.createElement('div');
+            errorItem.className = 'debug-item debug-error';
+            errorItem.innerHTML = `[${timestamp}] ${message}`;
+            errorDebugInfo.appendChild(errorItem);
+            errorDebugInfo.scrollTop = errorDebugInfo.scrollHeight;
+        }
+
         function simulateProgress() {
             const steps = [
                 {progress: 10, message: "Проверка окружения..."},
@@ -406,10 +393,6 @@
                 setTimeout(() => {
                     updateProgress(step.progress, step.message);
                     addDebugMessage(step.message, 'success');
-                    
-                    if (step.progress === 100) {
-                        setTimeout(showMainApp, 500);
-                    }
                 }, index * 800);
             });
         }
@@ -419,11 +402,37 @@
             setTimeout(() => {
                 loadingScreen.style.display = 'none';
                 mainApp.style.display = 'block';
-                // Запускаем анимацию появления
+                // Включаем прокрутку для основного приложения
+                document.body.style.overflow = 'auto';
                 setTimeout(() => {
                     mainApp.style.opacity = '1';
                 }, 50);
             }, 500);
+        }
+
+        function showErrorScreen(message) {
+            loadingScreen.style.display = 'none';
+            errorMessage.textContent = message;
+            errorScreen.style.display = 'flex';
+            document.body.style.overflow = 'auto';
+        }
+
+        function retryLoading() {
+            errorScreen.style.display = 'none';
+            loadingScreen.style.display = 'flex';
+            loadingScreen.style.opacity = '1';
+            document.body.style.overflow = 'hidden';
+            
+            // Очищаем предыдущие сообщения
+            debugInfo.innerHTML = '<div class="debug-item">⚡ Перезапуск инициализации...</div>';
+            errorDebugInfo.innerHTML = '';
+            
+            progressBar.style.width = '0%';
+            statusMessage.textContent = 'Инициализация...';
+            
+            // Перезапускаем процесс
+            simulateProgress();
+            setTimeout(initializeApp, 100);
         }
 
         // Основная логика приложения
@@ -449,7 +458,7 @@
                 tg.setBackgroundColor('secondary_bg_color');
                 addDebugMessage("✅ Цвета интерфейса установлены", "success");
 
-                // Загружаем данные пользователя
+                // Загружаем данные пользователя с проверкой ошибок
                 loadUserData();
 
                 // Настраиваем обработчики событий
@@ -457,10 +466,8 @@
 
             } catch (error) {
                 addDebugMessage(`❌ Ошибка инициализации: ${error.message}`, "error");
-                updateProgress(0, "Ошибка инициализации");
-                
-                // Показываем основное приложение даже при ошибке
-                setTimeout(showMainApp, 2000);
+                addErrorMessage(`Ошибка инициализации: ${error.message}`);
+                showErrorScreen(`Ошибка инициализации: ${error.message}`);
             }
         }
 
@@ -471,12 +478,10 @@
                 try {
                     const user = tg.initDataUnsafe?.user;
                     
-                    if (user) {
+                    if (user && user.id) {
                         const userName = document.getElementById('userName');
                         const userAvatar = document.getElementById('userAvatar');
                         const userStatus = document.getElementById('userStatus');
-                        const stat1 = document.getElementById('stat1');
-                        const stat2 = document.getElementById('stat2');
 
                         // Отображаем данные пользователя
                         userName.textContent = `${user.first_name || ''} ${user.last_name || ''}`.trim() || 'Пользователь';
@@ -489,18 +494,21 @@
                             userStatus.textContent = 'Telegram пользователь';
                         }
                         
-                        // Генерируем случайную статистику
-                        stat1.textContent = Math.floor(Math.random() * 100) + 1;
-                        stat2.textContent = Math.floor(Math.random() * 50) + 1;
-                        
                         addDebugMessage(`✅ Данные пользователя загружены: ${userName.textContent}`, "success");
+                        addDebugMessage(`📱 ID пользователя: ${user.id}`, "info");
+                        
+                        // Показываем основное приложение после успешной загрузки
+                        setTimeout(showMainApp, 1000);
                     } else {
-                        addDebugMessage("⚠️ Данные пользователя недоступны", "warning");
+                        throw new Error("Данные пользователя недоступны или неполны");
                     }
                 } catch (error) {
                     addDebugMessage(`❌ Ошибка загрузки данных пользователя: ${error.message}`, "error");
+                    addErrorMessage(`Ошибка загрузки данных: ${error.message}`);
+                    addErrorMessage(`InitData: ${JSON.stringify(tg.initDataUnsafe)}`);
+                    showErrorScreen(`Не удалось загрузить данные пользователя: ${error.message}`);
                 }
-            }, 1000);
+            }, 2000);
         }
 
         function setupEventHandlers() {
@@ -511,29 +519,23 @@
             tg.onEvent('viewportChanged', (event) => {
                 addDebugMessage(`📱 Viewport изменен: ${JSON.stringify(event)}`, "info");
             });
-
-            // Основная кнопка
-            if (tg.MainButton.isVisible) {
-                tg.MainButton.setText("Главная кнопка");
-                tg.MainButton.show();
-                tg.MainButton.onClick(() => {
-                    tg.showAlert("Главная кнопка нажата!");
-                });
-                addDebugMessage("✅ Главная кнопка настроена", "success");
-            }
         }
 
         function showAlert() {
-            tg.showPopup({
-                title: 'Привет! 👋',
-                message: 'Вы нажали на кнопку! Это демонстрация работы Telegram Mini App.',
-                buttons: [
-                    {id: 'close', type: 'close'}
-                ]
-            });
+            if (tg) {
+                tg.showPopup({
+                    title: 'Привет! 👋',
+                    message: 'Вы нажали на кнопку! Это демонстрация работы Telegram Mini App.',
+                    buttons: [
+                        {id: 'close', type: 'close'}
+                    ]
+                });
+            }
         }
 
         function toggleTheme() {
+            if (!tg) return;
+            
             const currentBg = getComputedStyle(document.body).backgroundColor;
             const isDark = currentBg === 'rgb(0, 0, 0)' || currentBg === 'rgb(23, 23, 23)';
             
@@ -548,6 +550,9 @@
 
         // Инициализация при загрузке страницы
         document.addEventListener('DOMContentLoaded', () => {
+            // Отключаем прокрутку во время загрузки
+            document.body.style.overflow = 'hidden';
+            
             addDebugMessage("📄 DOM загружен", "success");
             simulateProgress();
             setTimeout(initializeApp, 100);
@@ -556,6 +561,7 @@
         // Обработка ошибок
         window.addEventListener('error', (event) => {
             addDebugMessage(`🚨 Глобальная ошибка: ${event.error?.message || event.message}`, "error");
+            addErrorMessage(`Глобальная ошибка: ${event.error?.message || event.message}`);
         });
 
         // Обработка закрытия приложения
