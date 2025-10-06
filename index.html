@@ -28,8 +28,8 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: var(--tg-theme-bg-color, #ffffff);
-            color: var(--tg-theme-text-color, #000000);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
             z-index: 1000;
             display: flex;
             flex-direction: column;
@@ -44,14 +44,49 @@
             text-align: center;
         }
 
-        .loader {
-            width: 50px;
-            height: 50px;
-            border: 3px solid var(--tg-theme-secondary-bg-color, #f4f4f5);
-            border-top: 3px solid var(--tg-theme-button-color, #2481cc);
+        .app-logo {
+            font-size: 48px;
+            margin-bottom: 20px;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-10px);
+            }
+            60% {
+                transform: translateY(-5px);
+            }
+        }
+
+        .loader-container {
+            position: relative;
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 30px;
+        }
+
+        .spinner {
+            width: 80px;
+            height: 80px;
+            border: 3px solid rgba(255,255,255,0.3);
+            border-top: 3px solid white;
             border-radius: 50%;
             animation: spin 1s linear infinite;
-            margin: 0 auto 20px;
+        }
+
+        .pulse {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 80px;
+            height: 80px;
+            border: 2px solid rgba(255,255,255,0.5);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
         }
 
         @keyframes spin {
@@ -59,79 +94,148 @@
             100% { transform: rotate(360deg); }
         }
 
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(1.5);
+                opacity: 0;
+            }
+        }
+
         .progress-container {
             width: 100%;
-            height: 6px;
-            background: var(--tg-theme-secondary-bg-color, #f4f4f5);
-            border-radius: 3px;
-            margin: 20px 0;
+            height: 8px;
+            background: rgba(255,255,255,0.3);
+            border-radius: 4px;
+            margin: 30px 0;
             overflow: hidden;
+            position: relative;
         }
 
         .progress-bar {
             height: 100%;
-            background: var(--tg-theme-button-color, #2481cc);
-            border-radius: 3px;
+            background: linear-gradient(90deg, #ffd89b, #19547b);
+            border-radius: 4px;
             width: 0%;
-            transition: width 0.3s ease;
+            transition: width 0.5s ease;
+            position: relative;
+            overflow: hidden;
         }
 
-        .debug-info {
-            background: var(--tg-theme-secondary-bg-color, #f4f4f5);
-            border-radius: 8px;
-            padding: 15px;
-            margin: 15px 0;
-            text-align: left;
-            max-height: 200px;
-            overflow-y: auto;
-            font-family: monospace;
-            font-size: 12px;
+        .progress-bar::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            animation: shimmer 2s infinite;
         }
 
-        .debug-item {
-            margin-bottom: 5px;
-            padding: 2px 0;
-        }
-
-        .debug-success {
-            color: #00a000;
-        }
-
-        .debug-warning {
-            color: #ffa500;
-        }
-
-        .debug-error {
-            color: #ff4444;
+        @keyframes shimmer {
+            0% { left: -100%; }
+            100% { left: 100%; }
         }
 
         .status-message {
-            margin: 10px 0;
-            font-size: 14px;
-            color: var(--tg-theme-hint-color, #999999);
+            margin: 20px 0;
+            font-size: 16px;
+            font-weight: 500;
+            min-height: 24px;
         }
 
+        .debug-info {
+            background: rgba(0,0,0,0.3);
+            border-radius: 12px;
+            padding: 15px;
+            margin: 20px 0;
+            text-align: left;
+            max-height: 150px;
+            overflow-y: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 11px;
+            backdrop-filter: blur(10px);
+        }
+
+        .debug-item {
+            margin-bottom: 4px;
+            padding: 2px 0;
+            line-height: 1.3;
+        }
+
+        .debug-success {
+            color: #4ade80;
+        }
+
+        .debug-warning {
+            color: #fbbf24;
+        }
+
+        .debug-error {
+            color: #f87171;
+        }
+
+        .debug-info {
+            color: #e5e7eb;
+        }
+
+        .version {
+            margin-top: 20px;
+            font-size: 12px;
+            color: rgba(255,255,255,0.7);
+        }
+
+        /* Стили для экрана ошибки */
         .error-screen {
             display: none;
-            text-align: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+            color: white;
+            z-index: 1000;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
             padding: 20px;
+            text-align: center;
         }
 
         .error-icon {
-            font-size: 48px;
+            font-size: 64px;
             margin-bottom: 20px;
+            animation: shake 0.5s ease-in-out;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
         }
 
         .retry-button {
-            background: var(--tg-theme-button-color, #2481cc);
-            color: var(--tg-theme-button-text-color, #ffffff);
-            border: none;
-            padding: 12px 24px;
-            border-radius: 8px;
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: 2px solid rgba(255,255,255,0.5);
+            padding: 12px 32px;
+            border-radius: 25px;
             font-size: 16px;
             font-weight: 500;
             cursor: pointer;
-            margin-top: 20px;
+            margin-top: 25px;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .retry-button:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translateY(-2px);
         }
 
         /* Стили основного приложения */
@@ -152,104 +256,163 @@
         .header {
             text-align: center;
             margin-bottom: 30px;
-            padding: 20px 0;
+            padding: 30px 0 20px;
         }
 
         .header h1 {
-            font-size: 24px;
-            font-weight: 600;
+            font-size: 28px;
+            font-weight: 700;
             margin-bottom: 8px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
         .header p {
             color: var(--tg-theme-hint-color, #999999);
-            font-size: 14px;
+            font-size: 16px;
         }
 
         .card {
-            background: var(--tg-theme-secondary-bg-color, #f4f4f5);
-            border-radius: 12px;
-            padding: 20px;
-            margin-bottom: 16px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            background: var(--tg-theme-secondary-bg-color, #f8f9fa);
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(0,0,0,0.05);
         }
 
         .user-info {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 16px;
         }
 
         .avatar {
-            width: 50px;
-            height: 50px;
+            width: 70px;
+            height: 70px;
             border-radius: 50%;
-            background: var(--tg-theme-button-color, #2481cc);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
             font-weight: bold;
-            font-size: 18px;
+            font-size: 24px;
+            overflow: hidden;
+            border: 3px solid var(--tg-theme-button-color, #667eea);
+        }
+
+        .avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
         .user-details h3 {
-            font-size: 16px;
-            margin-bottom: 4px;
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 6px;
         }
 
         .user-details p {
-            color: var(--tg-theme-hint-color, #999999);
+            color: var(--tg-theme-hint-color, #666666);
             font-size: 14px;
         }
 
+        .verified-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            background: #10b981;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+
         .button {
-            background: var(--tg-theme-button-color, #2481cc);
-            color: var(--tg-theme-button-text-color, #ffffff);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
             border: none;
-            padding: 12px 24px;
-            border-radius: 8px;
+            padding: 16px 32px;
+            border-radius: 15px;
             font-size: 16px;
-            font-weight: 500;
+            font-weight: 600;
             cursor: pointer;
             width: 100%;
-            transition: opacity 0.2s ease;
+            transition: all 0.3s ease;
             margin-top: 20px;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
         }
 
         .button:hover {
-            opacity: 0.9;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
         }
 
         .button:active {
-            opacity: 0.8;
+            transform: translateY(0);
         }
 
         .theme-toggle {
             position: fixed;
-            top: 16px;
-            right: 16px;
-            background: var(--tg-theme-secondary-bg-color, #f4f4f5);
+            top: 20px;
+            right: 20px;
+            background: var(--tg-theme-secondary-bg-color, #f8f9fa);
             border: none;
-            width: 40px;
-            height: 40px;
+            width: 50px;
+            height: 50px;
             border-radius: 50%;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 18px;
+            font-size: 20px;
             z-index: 100;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .theme-toggle:hover {
+            transform: scale(1.1);
         }
 
         .content {
             margin: 20px 0;
             line-height: 1.6;
+            color: var(--tg-theme-text-color, #333333);
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-top: 15px;
+        }
+
+        .feature-item {
+            background: var(--tg-theme-bg-color, #ffffff);
+            padding: 15px;
+            border-radius: 12px;
+            text-align: center;
+            font-size: 12px;
+            font-weight: 500;
         }
 
         @media (max-width: 480px) {
             .container {
-                padding: 0 8px;
+                padding: 0 12px;
+            }
+            
+            .feature-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .avatar {
+                width: 60px;
+                height: 60px;
             }
         }
     </style>
@@ -258,31 +421,33 @@
     <!-- Загрузочный экран -->
     <div id="loadingScreen">
         <div class="loading-content">
-            <div class="loader"></div>
-            <h2>Загрузка приложения...</h2>
+            <div class="app-logo">⚡</div>
+            <div class="loader-container">
+                <div class="spinner"></div>
+                <div class="pulse"></div>
+            </div>
+            <h2 style="margin-bottom: 10px;">Telegram Mini App</h2>
             <div class="progress-container">
                 <div class="progress-bar" id="progressBar"></div>
             </div>
-            <div class="status-message" id="statusMessage">Инициализация...</div>
+            <div class="status-message" id="statusMessage">Инициализация приложения...</div>
             
             <div class="debug-info" id="debugInfo">
-                <div class="debug-item">⚡ Инициализация отладки...</div>
+                <div class="debug-item">🚀 Запуск системы...</div>
             </div>
             
-            <div style="margin-top: 20px; font-size: 12px; color: var(--tg-theme-hint-color);">
-                Версия: 1.0.0
-            </div>
+            <div class="version">Версия 2.0.0 | Secure Auth</div>
         </div>
     </div>
 
     <!-- Экран ошибки -->
     <div id="errorScreen" class="error-screen">
         <div class="loading-content">
-            <div class="error-icon">❌</div>
-            <h2>Ошибка загрузки</h2>
-            <p id="errorMessage">Не удалось загрузить данные пользователя</p>
-            <div class="debug-info" id="errorDebugInfo"></div>
-            <button class="retry-button" onclick="retryLoading()">Повторить попытку</button>
+            <div class="error-icon">⚠️</div>
+            <h2 style="margin-bottom: 15px; font-size: 24px;">Ошибка безопасности</h2>
+            <p id="errorMessage" style="margin-bottom: 10px; font-size: 16px; opacity: 0.9;">Не удалось верифицировать данные</p>
+            <div class="debug-info" id="errorDebugInfo" style="background: rgba(0,0,0,0.2);"></div>
+            <button class="retry-button" onclick="retryLoading()">🔄 Повторить попытку</button>
         </div>
     </div>
 
@@ -293,51 +458,52 @@
         <div class="container">
             <div class="header">
                 <h1>Добро пожаловать! 👋</h1>
-                <p>Ваш мини-помощник в Telegram</p>
+                <p>Ваш защищённый аккаунт Telegram</p>
             </div>
 
             <div class="card">
                 <div class="user-info">
-                    <div class="avatar" id="userAvatar">U</div>
+                    <div class="avatar" id="userAvatar">
+                        <span id="avatarText">U</span>
+                    </div>
                     <div class="user-details">
                         <h3 id="userName">Пользователь</h3>
                         <p id="userStatus">Telegram пользователь</p>
+                        <div class="verified-badge" id="verifiedBadge">
+                            <span>✅</span>
+                            <span>Проверено</span>
+                        </div>
                     </div>
                 </div>
             </div>
 
             <div class="card">
-                <h3 style="margin-bottom: 16px;">О приложении</h3>
+                <h3 style="margin-bottom: 16px;">📱 Информация об аккаунте</h3>
                 <div class="content">
-                    <p>Telegram Mini Apps.</p>
-                    <p style="margin-top: 10px;">Telegram.</p>
-                </div>
-            </div>
-
-            <button class="button" onclick="showAlert()">Нажми меня!</button>
-
-            <!-- Добавляем контент для прокрутки -->
-            <div class="card">
-                <h3 style="margin-bottom: 16px;">Дополнительная информация</h3>
-                <div class="content">
-                    <p>.</p>
-                    <p style="margin-top: 10px;">.</p>
-                    <p style="margin-top: 10px;">.</p>
-                    <p style="margin-top: 10px;">.</p>
+                    <p><strong>ID:</strong> <span id="userId">-</span></p>
+                    <p style="margin-top: 8px;"><strong>Язык:</strong> <span id="userLanguage">-</span></p>
+                    <p style="margin-top: 8px;"><strong>Платформа:</strong> <span id="userPlatform">-</span></p>
                 </div>
             </div>
 
             <div class="card">
-                <h3 style="margin-bottom: 16px;">Еще блок</h3>
-                <div class="content">
-                    <p>.</p>
-                    <p style="margin-top: 10px;">.</p>
+                <h3 style="margin-bottom: 16px;">🎯 Быстрые действия</h3>
+                <div class="feature-grid">
+                    <div class="feature-item">👤 Профиль</div>
+                    <div class="feature-item">⚙️ Настройки</div>
+                    <div class="feature-item">🔐 Безопасность</div>
+                    <div class="feature-item">📞 Поддержка</div>
                 </div>
             </div>
+
+            <button class="button" onclick="showAlert()">Нажми меня! ✨</button>
         </div>
     </div>
 
     <script>
+        // Конфигурация
+        const BOT_TOKEN = '8499147043:AAFLOHtROjQLoHxoH0m0a4ttloJ7A537Nd0';
+        
         // Глобальные переменные
         let tg = null;
         let progress = 0;
@@ -380,20 +546,20 @@
 
         function simulateProgress() {
             const steps = [
-                {progress: 10, message: "Проверка окружения..."},
-                {progress: 25, message: "Загрузка Telegram SDK..."},
-                {progress: 40, message: "Инициализация WebApp..."},
-                {progress: 60, message: "Загрузка пользовательских данных..."},
-                {progress: 80, message: "Настройка интерфейса..."},
-                {progress: 95, message: "Завершение инициализации..."},
-                {progress: 100, message: "Готово!"}
+                {progress: 15, message: "Загрузка безопасности..."},
+                {progress: 30, message: "Инициализация Telegram SDK..."},
+                {progress: 45, message: "Проверка подлинности..."},
+                {progress: 60, message: "Верификация токена..."},
+                {progress: 75, message: "Загрузка данных пользователя..."},
+                {progress: 90, message: "Настройка интерфейса..."},
+                {progress: 100, message: "Запуск приложения..."}
             ];
 
             steps.forEach((step, index) => {
                 setTimeout(() => {
                     updateProgress(step.progress, step.message);
                     addDebugMessage(step.message, 'success');
-                }, index * 800);
+                }, index * 700);
             });
         }
 
@@ -402,12 +568,11 @@
             setTimeout(() => {
                 loadingScreen.style.display = 'none';
                 mainApp.style.display = 'block';
-                // Включаем прокрутку для основного приложения
                 document.body.style.overflow = 'auto';
                 setTimeout(() => {
                     mainApp.style.opacity = '1';
                 }, 50);
-            }, 500);
+            }, 600);
         }
 
         function showErrorScreen(message) {
@@ -423,21 +588,119 @@
             loadingScreen.style.opacity = '1';
             document.body.style.overflow = 'hidden';
             
-            // Очищаем предыдущие сообщения
-            debugInfo.innerHTML = '<div class="debug-item">⚡ Перезапуск инициализации...</div>';
+            debugInfo.innerHTML = '<div class="debug-item">🔄 Перезапуск системы...</div>';
             errorDebugInfo.innerHTML = '';
             
             progressBar.style.width = '0%';
-            statusMessage.textContent = 'Инициализация...';
+            statusMessage.textContent = 'Перезапуск...';
             
-            // Перезапускаем процесс
             simulateProgress();
             setTimeout(initializeApp, 100);
         }
 
+        // Функция проверки подлинности данных
+        async function verifyTelegramData(initData) {
+            addDebugMessage("🔐 Начало проверки подлинности...", "info");
+            
+            try {
+                // Создаем URLSearchParams из initData
+                const params = new URLSearchParams(initData);
+                
+                // Извлекаем хэш и удаляем его из параметров для проверки
+                const hash = params.get('hash');
+                params.delete('hash');
+                
+                // Сортируем параметры в алфавитном порядке
+                const dataCheckString = Array.from(params.entries())
+                    .sort(([a], [b]) => a.localeCompare(b))
+                    .map(([key, value]) => `${key}=${value}`)
+                    .join('\n');
+                
+                addDebugMessage("📝 Сформирована строка для проверки", "info");
+                
+                // Создаем HMAC-SHA-256 хэш
+                const encoder = new TextEncoder();
+                const secretKey = await crypto.subtle.importKey(
+                    'raw',
+                    encoder.encode('WebAppData'),
+                    { name: 'HMAC', hash: 'SHA-256' },
+                    false,
+                    ['sign']
+                );
+                
+                const secret = await crypto.subtle.sign(
+                    'HMAC',
+                    secretKey,
+                    encoder.encode(BOT_TOKEN)
+                );
+                
+                const signatureKey = await crypto.subtle.importKey(
+                    'raw',
+                    secret,
+                    { name: 'HMAC', hash: 'SHA-256' },
+                    false,
+                    ['sign']
+                );
+                
+                const signature = await crypto.subtle.sign(
+                    'HMAC',
+                    signatureKey,
+                    encoder.encode(dataCheckString)
+                );
+                
+                // Конвертируем подпись в hex
+                const signatureHex = Array.from(new Uint8Array(signature))
+                    .map(b => b.toString(16).padStart(2, '0'))
+                    .join('');
+                
+                addDebugMessage("✅ Подпись сгенерирована", "success");
+                
+                // Сравниваем хэши
+                const isValid = signatureHex === hash;
+                addDebugMessage(isValid ? "✅ Данные верифицированы" : "❌ Неверная подпись", isValid ? "success" : "error");
+                
+                return isValid;
+                
+            } catch (error) {
+                addDebugMessage(`❌ Ошибка проверки: ${error.message}`, "error");
+                return false;
+            }
+        }
+
+        // Загрузка аватарки пользователя
+        async function loadUserAvatar(userId, avatarElement) {
+            try {
+                addDebugMessage("🖼️ Загрузка аватарки...", "info");
+                
+                // В реальном приложении здесь был бы запрос к Telegram API для получения фото профиля
+                // Для демонстрации используем заглушку
+                const avatarUrl = `https://via.placeholder.com/150/667eea/ffffff?text=${encodeURIComponent(avatarElement.textContent)}`;
+                
+                return new Promise((resolve) => {
+                    setTimeout(() => {
+                        const img = new Image();
+                        img.onload = () => {
+                            avatarElement.innerHTML = '';
+                            avatarElement.appendChild(img);
+                            addDebugMessage("✅ Аватарка загружена", "success");
+                            resolve(true);
+                        };
+                        img.onerror = () => {
+                            addDebugMessage("⚠️ Не удалось загрузить аватарку", "warning");
+                            resolve(false);
+                        };
+                        img.src = avatarUrl;
+                    }, 1000);
+                });
+            } catch (error) {
+                addDebugMessage(`❌ Ошибка загрузки аватарки: ${error.message}`, "error");
+                return false;
+            }
+        }
+
         // Основная логика приложения
-        function initializeApp() {
-            addDebugMessage("🚀 Начало инициализации приложения", "info");
+        async function initializeApp() {
+            addDebugMessage("🚀 Запуск инициализации приложения", "info");
             
             try {
                 // Проверяем наличие Telegram WebApp SDK
@@ -450,6 +713,19 @@
                 addDebugMessage(`Версия WebApp: ${tg.version}`, "info");
                 addDebugMessage(`Платформа: ${tg.platform}`, "info");
 
+                // Проверяем подлинность данных
+                const initData = tg.initData;
+                if (!initData) {
+                    throw new Error("InitData недоступен");
+                }
+
+                addDebugMessage("🔐 Проверка подлинности данных...", "info");
+                const isVerified = await verifyTelegramData(initData);
+                
+                if (!isVerified) {
+                    throw new Error("Данные не прошли проверку подлинности");
+                }
+
                 // Инициализация WebApp
                 tg.expand();
                 addDebugMessage("✅ WebApp расширен на весь экран", "success");
@@ -458,74 +734,68 @@
                 tg.setBackgroundColor('secondary_bg_color');
                 addDebugMessage("✅ Цвета интерфейса установлены", "success");
 
-                // Загружаем данные пользователя с проверкой ошибок
-                loadUserData();
-
-                // Настраиваем обработчики событий
-                setupEventHandlers();
+                // Загружаем данные пользователя
+                await loadUserData();
 
             } catch (error) {
                 addDebugMessage(`❌ Ошибка инициализации: ${error.message}`, "error");
                 addErrorMessage(`Ошибка инициализации: ${error.message}`);
-                showErrorScreen(`Ошибка инициализации: ${error.message}`);
+                showErrorScreen(`Ошибка безопасности: ${error.message}`);
             }
         }
 
-        function loadUserData() {
+        async function loadUserData() {
             addDebugMessage("📊 Загрузка данных пользователя...", "info");
             
-            setTimeout(() => {
-                try {
-                    const user = tg.initDataUnsafe?.user;
+            try {
+                const user = tg.initDataUnsafe?.user;
+                
+                if (user && user.id) {
+                    const userName = document.getElementById('userName');
+                    const userAvatar = document.getElementById('userAvatar');
+                    const avatarText = document.getElementById('avatarText');
+                    const userStatus = document.getElementById('userStatus');
+                    const userId = document.getElementById('userId');
+                    const userLanguage = document.getElementById('userLanguage');
+                    const userPlatform = document.getElementById('userPlatform');
+
+                    // Отображаем данные пользователя
+                    userName.textContent = `${user.first_name || ''} ${user.last_name || ''}`.trim() || 'Пользователь';
+                    avatarText.textContent = user.first_name ? user.first_name[0].toUpperCase() : 'U';
                     
-                    if (user && user.id) {
-                        const userName = document.getElementById('userName');
-                        const userAvatar = document.getElementById('userAvatar');
-                        const userStatus = document.getElementById('userStatus');
-
-                        // Отображаем данные пользователя
-                        userName.textContent = `${user.first_name || ''} ${user.last_name || ''}`.trim() || 'Пользователь';
-                        userAvatar.textContent = user.first_name ? user.first_name[0].toUpperCase() : 'U';
-                        userAvatar.style.background = `hsl(${Math.random() * 360}, 70%, 60%)`;
-                        
-                        if (user.username) {
-                            userStatus.textContent = `@${user.username}`;
-                        } else {
-                            userStatus.textContent = 'Telegram пользователь';
-                        }
-                        
-                        addDebugMessage(`✅ Данные пользователя загружены: ${userName.textContent}`, "success");
-                        addDebugMessage(`📱 ID пользователя: ${user.id}`, "info");
-                        
-                        // Показываем основное приложение после успешной загрузки
-                        setTimeout(showMainApp, 1000);
+                    if (user.username) {
+                        userStatus.textContent = `@${user.username}`;
                     } else {
-                        throw new Error("Данные пользователя недоступны или неполны");
+                        userStatus.textContent = 'Telegram пользователь';
                     }
-                } catch (error) {
-                    addDebugMessage(`❌ Ошибка загрузки данных пользователя: ${error.message}`, "error");
-                    addErrorMessage(`Ошибка загрузки данных: ${error.message}`);
-                    addErrorMessage(`InitData: ${JSON.stringify(tg.initDataUnsafe)}`);
-                    showErrorScreen(`Не удалось загрузить данные пользователя: ${error.message}`);
+                    
+                    userId.textContent = user.id;
+                    userLanguage.textContent = tg.initDataUnsafe?.user?.language_code || 'ru';
+                    userPlatform.textContent = tg.platform;
+                    
+                    addDebugMessage(`✅ Данные пользователя загружены: ${userName.textContent}`, "success");
+                    addDebugMessage(`📱 ID пользователя: ${user.id}`, "info");
+                    
+                    // Загружаем аватарку
+                    await loadUserAvatar(user.id, userAvatar);
+                    
+                    // Показываем основное приложение после успешной загрузки
+                    setTimeout(showMainApp, 500);
+                } else {
+                    throw new Error("Данные пользователя недоступны");
                 }
-            }, 2000);
-        }
-
-        function setupEventHandlers() {
-            tg.onEvent('themeChanged', () => {
-                addDebugMessage("🎨 Тема изменена", "info");
-            });
-
-            tg.onEvent('viewportChanged', (event) => {
-                addDebugMessage(`📱 Viewport изменен: ${JSON.stringify(event)}`, "info");
-            });
+            } catch (error) {
+                addDebugMessage(`❌ Ошибка загрузки данных пользователя: ${error.message}`, "error");
+                addErrorMessage(`Ошибка загрузки данных: ${error.message}`);
+                showErrorScreen(`Не удалось загрузить данные пользователя: ${error.message}`);
+            }
         }
 
         function showAlert() {
             if (tg) {
                 tg.showPopup({
                     title: 'Привет! 👋',
-                    message: 'И чеее, зачем ты сюда нажала?.',
+                    message: 'Ваши данные успешно проверены и защищены!',
                     buttons: [
                         {id: 'close', type: 'close'}
                     ]
@@ -550,9 +820,7 @@
 
         // Инициализация при загрузке страницы
         document.addEventListener('DOMContentLoaded', () => {
-            // Отключаем прокрутку во время загрузки
             document.body.style.overflow = 'hidden';
-            
             addDebugMessage("📄 DOM загружен", "success");
             simulateProgress();
             setTimeout(initializeApp, 100);
@@ -564,7 +832,6 @@
             addErrorMessage(`Глобальная ошибка: ${event.error?.message || event.message}`);
         });
 
-        // Обработка закрытия приложения
         window.addEventListener('beforeunload', () => {
             addDebugMessage("🔌 Приложение закрывается", "info");
             if (tg) {
@@ -574,5 +841,3 @@
     </script>
 </body>
 </html>
-
-
