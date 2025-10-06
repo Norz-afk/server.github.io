@@ -16,9 +16,59 @@
             height: 100vh;
             border: none;
         }
+        .error {
+            padding: 20px;
+            text-align: center;
+            color: red;
+        }
     </style>
 </head>
 <body>
-    <iframe src="http://f1176452.xsph.ru/" sandbox="allow-same-origin allow-scripts allow-forms allow-popups"></iframe>
+    <iframe id="myFrame" src="about:blank"></iframe>
+    
+    <script>
+        // Функция для загрузки через CORS прокси
+        function loadWithProxy(url) {
+            // Используем CORS прокси (примеры)
+            const proxyUrls = [
+                `https://cors-anywhere.herokuapp.com/${url}`,
+                `https://api.codetabs.com/v1/proxy?quest=${url}`,
+                `https://corsproxy.io/?${encodeURIComponent(url)}`
+            ];
+            
+            const iframe = document.getElementById('myFrame');
+            let currentProxy = 0;
+            
+            function tryNextProxy() {
+                if (currentProxy >= proxyUrls.length) {
+                    document.body.innerHTML = '<div class="error">Не удалось загрузить сайт. Сайт блокирует встраивание.</div>';
+                    return;
+                }
+                
+                iframe.src = proxyUrls[currentProxy];
+                currentProxy++;
+            }
+            
+            iframe.onload = function() {
+                // Проверяем, загрузился ли контент
+                try {
+                    if (iframe.contentDocument && iframe.contentDocument.body.innerHTML) {
+                        console.log('Сайт загружен через прокси');
+                    }
+                } catch (e) {
+                    // Если CORS блокирует доступ к содержимому, пробуем следующий прокси
+                    setTimeout(tryNextProxy, 1000);
+                }
+            };
+            
+            iframe.onerror = tryNextProxy;
+            
+            // Начинаем с первого прокси
+            tryNextProxy();
+        }
+        
+        // Загружаем нужный сайт
+        loadWithProxy('http://f1176452.xsph.ru/');
+    </script>
 </body>
 </html>
