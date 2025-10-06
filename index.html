@@ -1,11 +1,24 @@
 <!DOCTYPE html>
-<html>
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="refresh" content="0; url=http://f1176452.xsph.ru/">
-    <title>Перенаправление</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Встроенный сайт</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden;
+        }
+        iframe {
+            width: 100%;
+            height: 100vh;
+            border: none;
+        }
+    </style>
 </head>
 <body>
-    <p>Перенаправление на сайт...</p>
+    <iframe src="http://f1176452.xsph.ru/" sandbox="allow-same-origin allow-scripts allow-forms allow-popups"></iframe>
 </body>
 </html>
