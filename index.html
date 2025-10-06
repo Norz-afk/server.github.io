@@ -5,70 +5,122 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Встроенный сайт</title>
     <style>
-        body, html {
+        body {
             margin: 0;
-            padding: 0;
-            height: 100%;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 20px;
+        }
+        .iframe-container {
+            position: relative;
+            width: 100%;
+            height: 80vh;
+            border: 1px solid #ddd;
+            border-radius: 4px;
             overflow: hidden;
         }
         iframe {
             width: 100%;
-            height: 100vh;
+            height: 100%;
             border: none;
         }
-        .error {
-            padding: 20px;
-            text-align: center;
-            color: red;
+        .controls {
+            margin-bottom: 15px;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        button {
+            padding: 8px 16px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        .status {
+            color: #666;
+            font-size: 14px;
         }
     </style>
 </head>
 <body>
-    <iframe id="myFrame" src="about:blank"></iframe>
-    
+    <div class="container">
+        <h1>Встроенный сайт</h1>
+        
+        <div class="controls">
+            <button onclick="refreshFrame()">Обновить</button>
+            <button onclick="openInNewTab()">Открыть в новой вкладке</button>
+            <span class="status" id="status">Готово</span>
+        </div>
+
+        <div class="iframe-container">
+            <iframe 
+                id="embeddedFrame"
+                src="http://f1176452.xsph.ru/"
+                sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-modals"
+                allow="fullscreen"
+                referrerpolicy="no-referrer"
+                onload="frameLoaded()"
+                onerror="frameError()">
+            </iframe>
+        </div>
+
+        <div style="margin-top: 15px;">
+            <p><strong>Текущий URL:</strong> <span id="currentUrl">http://f1176452.xsph.ru/</span></p>
+        </div>
+    </div>
+
     <script>
-        // Функция для загрузки через CORS прокси
-        function loadWithProxy(url) {
-            // Используем CORS прокси (примеры)
-            const proxyUrls = [
-                `https://cors-anywhere.herokuapp.com/${url}`,
-                `https://api.codetabs.com/v1/proxy?quest=${url}`,
-                `https://corsproxy.io/?${encodeURIComponent(url)}`
-            ];
-            
-            const iframe = document.getElementById('myFrame');
-            let currentProxy = 0;
-            
-            function tryNextProxy() {
-                if (currentProxy >= proxyUrls.length) {
-                    document.body.innerHTML = '<div class="error">Не удалось загрузить сайт. Сайт блокирует встраивание.</div>';
-                    return;
-                }
-                
-                iframe.src = proxyUrls[currentProxy];
-                currentProxy++;
-            }
-            
-            iframe.onload = function() {
-                // Проверяем, загрузился ли контент
-                try {
-                    if (iframe.contentDocument && iframe.contentDocument.body.innerHTML) {
-                        console.log('Сайт загружен через прокси');
-                    }
-                } catch (e) {
-                    // Если CORS блокирует доступ к содержимому, пробуем следующий прокси
-                    setTimeout(tryNextProxy, 1000);
-                }
-            };
-            
-            iframe.onerror = tryNextProxy;
-            
-            // Начинаем с первого прокси
-            tryNextProxy();
+        let currentFrame = document.getElementById('embeddedFrame');
+        
+        function refreshFrame() {
+            document.getElementById('status').textContent = 'Загрузка...';
+            currentFrame.src = currentFrame.src;
         }
         
-        // Загружаем нужный сайт
-        loadWithProxy('http://f1176452.xsph.ru/');
+        function openInNewTab() {
+            window.open('http://f1176452.xsph.ru/', '_blank');
+        }
+        
+        function frameLoaded() {
+            document.getElementById('status').textContent = 'Загружено';
+            try {
+                // Пытаемся получить URL из iframe (работает только для same-origin)
+                document.getElementById('currentUrl').textContent = currentFrame.contentWindow.location.href;
+            } catch (e) {
+                // Если cross-origin, показываем исходный URL
+                document.getElementById('currentUrl').textContent = currentFrame.src;
+            }
+        }
+        
+        function frameError() {
+            document.getElementById('status').textContent = 'Ошибка загрузки';
+        }
+
+        // Альтернативный метод через proxy (раскомментировать если нужно)
+        function loadViaProxy() {
+            // Использование CORS proxy для обхода ограничений
+            const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
+            currentFrame.src = proxyUrl + 'http://f1176452.xsph.ru/';
+        }
+
+        // Автоматическое восстановление при ошибках
+        currentFrame.addEventListener('load', frameLoaded);
+        currentFrame.addEventListener('error', function() {
+            setTimeout(refreshFrame, 2000); // Повторная попытка через 2 секунды
+        });
     </script>
 </body>
 </html>
