@@ -301,12 +301,24 @@
             font-size: 24px;
             overflow: hidden;
             border: 3px solid var(--tg-theme-button-color, #667eea);
+            position: relative;
         }
 
         .avatar img {
             width: 100%;
             height: 100%;
             object-fit: cover;
+            display: none;
+        }
+
+        .avatar-initial {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-weight: bold;
+            font-size: 24px;
+            color: white;
         }
 
         .user-details h3 {
@@ -464,7 +476,8 @@
             <div class="card">
                 <div class="user-info">
                     <div class="avatar" id="userAvatar">
-                        <span id="avatarText">U</span>
+                        <img id="avatarImage" src="" alt="Аватар">
+                        <div class="avatar-initial" id="avatarInitial">U</div>
                     </div>
                     <div class="user-details">
                         <h3 id="userName">Пользователь</h3>
@@ -502,7 +515,7 @@
 
     <script>
         // Конфигурация
-        const BOT_TOKEN = '8499147043:AAFLOHtROjQLoHxoH0m0a4ttloJ7A537Nd0';
+        const API_URL = 'http://localhost:3000'; // URL вашего сервера
         
         // Глобальные переменные
         let tg = null;
@@ -598,67 +611,85 @@
             setTimeout(initializeApp, 100);
         }
 
-        // Правильная проверка Telegram Web App данных
-        async function verifyTelegramWebAppData(initData) {
-            addDebugMessage("🔐 Начало проверки данных Telegram...", "info");
+        // Проверка данных через бэкенд
+        async function verifyTelegramData(initData) {
+            addDebugMessage("🔐 Отправка данных на сервер для проверки...", "info");
             
             try {
-                if (!initData) {
-                    throw new Error("InitData пустой");
+                const response = await fetch(`${API_URL}/verify`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ initData })
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
                 }
 
-                // Парсим initData для проверки наличия пользователя
+                const result = await response.json();
+                
+                if (result.success) {
+                    addDebugMessage("✅ Данные успешно верифицированы сервером", "success");
+                    return true;
+                } else {
+                    addDebugMessage(`❌ Серверная проверка не пройдена: ${result.error}`, "error");
+                    return false;
+                }
+                
+            } catch (error) {
+                addDebugMessage(`❌ Ошибка связи с сервером: ${error.message}`, "error");
+                // Для демо - используем mock проверку если сервер недоступен
+                return await mockVerifyTelegramData(initData);
+            }
+        }
+
+        // Mock проверка для демо (если сервер недоступен)
+        async function mockVerifyTelegramData(initData) {
+            addDebugMessage("⚠️ Используется mock-проверка (режим демо)", "warning");
+            
+            try {
+                if (!initData) return false;
+                
                 const params = new URLSearchParams(initData);
-                const hash = params.get('hash');
-                
-                if (!hash) {
-                    throw new Error("Хэш не найден в initData");
-                }
-
-                // Проверяем наличие пользователя
                 const userParam = params.get('user');
-                if (!userParam) {
-                    throw new Error("Данные пользователя не найдены");
-                }
-
-                let userData;
-                try {
-                    userData = JSON.parse(decodeURIComponent(userParam));
-                } catch (e) {
-                    throw new Error("Неверный формат данных пользователя");
-                }
-
-                if (!userData || !userData.id) {
-                    throw new Error("ID пользователя не найден");
-                }
-
-                addDebugMessage("✅ Базовые проверки пройдены", "success");
                 
-                // В реальном приложении здесь должна быть проверка хэша через бэкенд
-                // Для демонстрации считаем данные валидными, если есть пользователь с ID
-                const isValid = !!userData.id;
+                if (!userParam) return false;
+                
+                const userData = JSON.parse(decodeURIComponent(userParam));
+                const isValid = !!(userData && userData.id);
                 
                 if (isValid) {
-                    addDebugMessage("✅ Данные Telegram верифицированы", "success");
-                    addDebugMessage(`👤 Пользователь ID: ${userData.id}`, "info");
+                    addDebugMessage("✅ Mock-проверка пройдена", "success");
                 } else {
-                    addDebugMessage("❌ Данные не прошли проверку", "error");
+                    addDebugMessage("❌ Mock-проверка не пройдена", "error");
                 }
                 
                 return isValid;
-                
             } catch (error) {
-                addDebugMessage(`❌ Ошибка проверки: ${error.message}`, "error");
+                addDebugMessage(`❌ Ошибка mock-проверки: ${error.message}`, "error");
                 return false;
             }
         }
 
-        // Загрузка аватарки пользователя
-        async function loadUserAvatar(userId, firstName, avatarElement) {
+        // Загрузка реальной аватарки пользователя
+        async function loadUserAvatar(user, avatarElement, avatarImage, avatarInitial) {
             try {
                 addDebugMessage("🖼️ Загрузка аватарки...", "info");
                 
-                // Создаем красивый градиентный аватар на основе имени пользователя
+                // Если у пользователя есть фото профиля в Telegram
+                if (user.photo_url) {
+                    addDebugMessage("📸 Загрузка фото из Telegram...", "info");
+                    avatarImage.src = user.photo_url;
+                    avatarImage.style.display = 'block';
+                    avatarInitial.style.display = 'none';
+                    addDebugMessage("✅ Фото профиля загружено", "success");
+                    return true;
+                }
+                
+                // Генерация градиентной аватарки с инициалами
+                addDebugMessage("🎨 Генерация градиентной аватарки...", "info");
                 const colors = [
                     ['#667eea', '#764ba2'],
                     ['#f093fb', '#f5576c'],
@@ -668,7 +699,7 @@
                     ['#a8edea', '#fed6e3']
                 ];
                 
-                const colorIndex = userId % colors.length;
+                const colorIndex = user.id % colors.length;
                 const [color1, color2] = colors[colorIndex];
                 
                 // Создаем canvas для генерации аватарки
@@ -691,24 +722,24 @@
                 ctx.font = 'bold 60px Arial';
                 ctx.textAlign = 'center';
                 ctx.textBaseline = 'middle';
-                const initial = firstName ? firstName[0].toUpperCase() : 'U';
+                const initial = user.first_name ? user.first_name[0].toUpperCase() : 'U';
                 ctx.fillText(initial, 75, 75);
                 
                 // Конвертируем в data URL
                 const dataUrl = canvas.toDataURL();
                 
-                const img = new Image();
-                img.onload = () => {
-                    avatarElement.innerHTML = '';
-                    avatarElement.appendChild(img);
-                    addDebugMessage("✅ Аватарка сгенерирована", "success");
-                };
-                img.src = dataUrl;
+                avatarImage.src = dataUrl;
+                avatarImage.style.display = 'block';
+                avatarInitial.style.display = 'none';
                 
+                addDebugMessage("✅ Градиентная аватарка сгенерирована", "success");
                 return true;
                 
             } catch (error) {
-                addDebugMessage(`⚠️ Не удалось сгенерировать аватарку: ${error.message}`, "warning");
+                addDebugMessage(`⚠️ Не удалось загрузить аватарку: ${error.message}`, "warning");
+                // Показываем только инициалы
+                avatarInitial.style.display = 'block';
+                avatarImage.style.display = 'none';
                 return false;
             }
         }
@@ -735,7 +766,7 @@
                 }
 
                 addDebugMessage("🔐 Проверка подлинности данных...", "info");
-                const isVerified = await verifyTelegramWebAppData(initData);
+                const isVerified = await verifyTelegramData(initData);
                 
                 if (!isVerified) {
                     throw new Error("Данные не прошли проверку подлинности");
@@ -768,7 +799,8 @@
                 if (user && user.id) {
                     const userName = document.getElementById('userName');
                     const userAvatar = document.getElementById('userAvatar');
-                    const avatarText = document.getElementById('avatarText');
+                    const avatarImage = document.getElementById('avatarImage');
+                    const avatarInitial = document.getElementById('avatarInitial');
                     const userStatus = document.getElementById('userStatus');
                     const userId = document.getElementById('userId');
                     const userLanguage = document.getElementById('userLanguage');
@@ -777,7 +809,7 @@
                     // Отображаем данные пользователя
                     const displayName = `${user.first_name || ''} ${user.last_name || ''}`.trim() || 'Пользователь';
                     userName.textContent = displayName;
-                    avatarText.textContent = user.first_name ? user.first_name[0].toUpperCase() : 'U';
+                    avatarInitial.textContent = user.first_name ? user.first_name[0].toUpperCase() : 'U';
                     
                     if (user.username) {
                         userStatus.textContent = `@${user.username}`;
@@ -792,8 +824,8 @@
                     addDebugMessage(`✅ Данные пользователя загружены: ${displayName}`, "success");
                     addDebugMessage(`📱 ID пользователя: ${user.id}`, "info");
                     
-                    // Генерируем красивую аватарку
-                    await loadUserAvatar(user.id, user.first_name, userAvatar);
+                    // Загружаем аватарку
+                    await loadUserAvatar(user, userAvatar, avatarImage, avatarInitial);
                     
                     // Показываем основное приложение после успешной загрузки
                     setTimeout(showMainApp, 500);
