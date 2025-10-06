@@ -1,1 +1,365 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Telegram Mini App</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--tg-theme-bg-color, #ffffff);
+            color: var(--tg-theme-text-color, #000000);
+            min-height: 100vh;
+            padding: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .container {
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px 0;
+        }
+
+        .header h1 {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            color: var(--tg-theme-hint-color, #999999);
+            font-size: 14px;
+        }
+
+        .card {
+            background: var(--tg-theme-secondary-bg-color, #f4f4f5);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 16px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--tg-theme-button-color, #2481cc);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .user-details h3 {
+            font-size: 16px;
+            margin-bottom: 4px;
+        }
+
+        .user-details p {
+            color: var(--tg-theme-hint-color, #999999);
+            font-size: 14px;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin: 20px 0;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 12px;
+            background: var(--tg-theme-bg-color, #ffffff);
+            border-radius: 8px;
+        }
+
+        .stat-value {
+            font-size: 20px;
+            font-weight: bold;
+            color: var(--tg-theme-button-color, #2481cc);
+            margin-bottom: 4px;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: var(--tg-theme-hint-color, #999999);
+        }
+
+        .button {
+            background: var(--tg-theme-button-color, #2481cc);
+            color: var(--tg-theme-button-text-color, #ffffff);
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            width: 100%;
+            transition: opacity 0.2s ease;
+        }
+
+        .button:hover {
+            opacity: 0.9;
+        }
+
+        .button:active {
+            opacity: 0.8;
+        }
+
+        .feature-list {
+            list-style: none;
+            margin: 20px 0;
+        }
+
+        .feature-list li {
+            padding: 12px 0;
+            border-bottom: 1px solid var(--tg-theme-secondary-bg-color, #f4f4f5);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .feature-list li:last-child {
+            border-bottom: none;
+        }
+
+        .feature-icon {
+            width: 24px;
+            height: 24px;
+            background: var(--tg-theme-button-color, #2481cc);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 12px;
+        }
+
+        .theme-toggle {
+            position: fixed;
+            top: 16px;
+            right: 16px;
+            background: var(--tg-theme-secondary-bg-color, #f4f4f5);
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 20px;
+            color: var(--tg-theme-hint-color, #999999);
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 0 8px;
+            }
+            
+            .stats {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <button class="theme-toggle" onclick="toggleTheme()">🌙</button>
+    
+    <div class="container">
+        <div class="header">
+            <h1>Добро пожаловать! 👋</h1>
+            <p>Ваш мини-помощник в Telegram</p>
+        </div>
+
+        <div class="card">
+            <div class="user-info">
+                <div class="avatar" id="userAvatar">U</div>
+                <div class="user-details">
+                    <h3 id="userName">Пользователь</h3>
+                    <p id="userStatus">Загрузка...</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3 style="margin-bottom: 16px;">Статистика</h3>
+            <div class="stats">
+                <div class="stat-item">
+                    <div class="stat-value" id="stat1">0</div>
+                    <div class="stat-label">Дней с нами</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="stat2">0</div>
+                    <div class="stat-label">Выполнено задач</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3 style="margin-bottom: 16px;">Функции</h3>
+            <ul class="feature-list">
+                <li>
+                    <div class="feature-icon">✓</div>
+                    <span>Быстрый доступ</span>
+                </li>
+                <li>
+                    <div class="feature-icon">⚡</div>
+                    <span>Высокая скорость</span>
+                </li>
+                <li>
+                    <div class="feature-icon">🔒</div>
+                    <span>Безопасность</span>
+                </li>
+                <li>
+                    <div class="feature-icon">🎯</div>
+                    <span>Простота использования</span>
+                </li>
+            </ul>
+        </div>
+
+        <button class="button" onclick="showAlert()">Нажми меня!</button>
+
+        <div class="loading" id="loading">
+            Загрузка...
+        </div>
+    </div>
+
+    <script>
+        // Инициализация Telegram Web App
+        let tg = window.Telegram.WebApp;
+        
+        // Расширяем приложение на весь экран
+        tg.expand();
+        
+        // Основная цветовая схема
+        tg.setHeaderColor('secondary_bg_color');
+        tg.setBackgroundColor('secondary_bg_color');
+
+        // Элементы DOM
+        const userName = document.getElementById('userName');
+        const userAvatar = document.getElementById('userAvatar');
+        const userStatus = document.getElementById('userStatus');
+        const stat1 = document.getElementById('stat1');
+        const stat2 = document.getElementById('stat2');
+        const loading = document.getElementById('loading');
+
+        // Загрузка пользовательских данных
+        function loadUserData() {
+            loading.style.display = 'block';
+            
+            setTimeout(() => {
+                const user = tg.initDataUnsafe?.user;
+                
+                if (user) {
+                    // Отображаем данные пользователя
+                    userName.textContent = `${user.first_name || ''} ${user.last_name || ''}`.trim() || 'Пользователь';
+                    userAvatar.textContent = user.first_name? user.first_name[0].toUpperCase() : 'U';
+                    userAvatar.style.background = `hsl(${Math.random() * 360}, 70%, 60%)`;
+                    
+                    if (user.username) {
+                        userStatus.textContent = `@${user.username}`;
+                    } else {
+                        userStatus.textContent = 'Telegram пользователь';
+                    }
+                    
+                    // Генерируем случайную статистику
+                    stat1.textContent = Math.floor(Math.random() * 100) + 1;
+                    stat2.textContent = Math.floor(Math.random() * 50) + 1;
+                } else {
+                    userName.textContent = 'Гость';
+                    userStatus.textContent = 'Войдите в Telegram';
+                }
+                
+                loading.style.display = 'none';
+            }, 1000);
+        }
+
+        // Показать alert
+        function showAlert() {
+            tg.showPopup({
+                title: 'Привет! 👋',
+                message: 'Вы нажали на кнопку! Это демонстрация работы Telegram Mini App.',
+                buttons: [
+                    {id: 'close', type: 'close'}
+                ]
+            });
+        }
+
+        // Переключение темы (демонстрация)
+        function toggleTheme() {
+            const currentBg = getComputedStyle(document.body).backgroundColor;
+            const isDark = currentBg === 'rgb(0, 0, 0)' || currentBg === 'rgb(23, 23, 23)';
+            
+            if (isDark) {
+                tg.setHeaderColor('secondary_bg_color');
+                tg.setBackgroundColor('secondary_bg_color');
+            } else {
+                tg.setHeaderColor('bg_color');
+                tg.setBackgroundColor('bg_color');
+            }
+        }
+
+        // Обработчики событий Telegram
+        tg.onEvent('themeChanged', () => {
+            // При изменении темы перезагружаем страницу для применения стилей
+            window.location.reload();
+        });
+
+        tg.onEvent('viewportChanged', (event) => {
+            console.log('Viewport changed:', event);
+        });
+
+        // Основная кнопка (если нужно)
+        if (tg.MainButton.isVisible) {
+            tg.MainButton.setText("Главная кнопка");
+            tg.MainButton.show();
+            tg.MainButton.onClick(() => {
+                tg.showAlert("Главная кнопка нажата!");
+            });
+        }
+
+        // Инициализация при загрузке
+        document.addEventListener('DOMContentLoaded', () => {
+            loadUserData();
+            
+            // Показываем версию WebApp в консоли
+            console.log('Telegram WebApp version:', tg.version);
+            console.log('Platform:', tg.platform);
+            console.log('Init data:', tg.initData);
+        });
+
+        // Обработка закрытия приложения
+        window.addEventListener('beforeunload', () => {
+            tg.close();
+        });
+    </script>
+</body>
+</html>
